@@ -2,7 +2,7 @@
 This repository cointains all the Milestone 2 python modules of the 42 CC.
 
 [python00](https://github.com/Cu-chi/42_python_modules/tree/main/python00): discovering Python's core concepts.  
-[python01](https://github.com/Cu-chi/42_python_modules/tree/main/python01): introduction to advanced concepts that make Python a powerful tool for modeling real-world systems.  
+[python01](https://github.com/Cu-chi/42_python_modules/tree/main/python01): Python programming concepts, starting from basic program structure and progressing to Object-Oriented Programming.  
 [python02](https://github.com/Cu-chi/42_python_modules/tree/main/python02): TODO  
 [python03](https://github.com/Cu-chi/42_python_modules/tree/main/python03): TODO  
 [python04](https://github.com/Cu-chi/42_python_modules/tree/main/python04): TODO  
