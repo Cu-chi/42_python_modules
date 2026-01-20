@@ -4,17 +4,17 @@ class Plant:
 
     Attributes:
         name (str): Plant name
-        height (str): Plant height
-        age (str): Plant age
+        height (int): Plant height
+        age (int): Plant age
     """
-    def __init__(self, name: str, height: str, age: str):
+    def __init__(self, name: str, height: int, age: int):
         """
         Initialize a Plant object
 
         Parameters:
             name (str): Plant name
-            height (str): Plant height
-            age (str): Plant age
+            height (int): Plant height
+            age (int): Plant age
         """
         self.name = name
         self.height = height
@@ -23,9 +23,9 @@ class Plant:
 
 if __name__ == "__main__":
     plants = [
-        Plant("Rose", "25", "30"),
-        Plant("Sunflower", "80", "45"),
-        Plant("Cactus", "15", "120")
+        Plant("Rose", 25, 30),
+        Plant("Sunflower", 80, 45),
+        Plant("Cactus", 15, 120)
     ]
     ("=== Garden Plant Registry ===")
     for i in range(3):
