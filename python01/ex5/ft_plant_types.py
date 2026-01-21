@@ -23,8 +23,11 @@ class Plant:
         """
         self._age += 1
 
-    def get_info(self):
-        """Print info of the plant
+    def get_info(self) -> str:
+        """info of the plant
+
+        Returns:
+            str: info of the plant
         """
         return (f"{self.name} ({type(self).__name__}): {self.height}cm, "
                 + f"{self._age} days")
@@ -54,9 +57,16 @@ class Flower(Plant):
         self.color = color
 
     def bloom(self):
+        """make the flower bloom
+        """
         print(f"{self.name} is blooming beautifully!")
 
-    def get_info(self):
+    def get_info(self) -> str:
+        """info of the plant
+
+        Returns:
+            str: info of the plant
+        """
         info = super().get_info()
         return info + f", {self.color} color"
 
@@ -85,10 +95,17 @@ class Tree(Plant):
         self.trunk_diameter = trunk_diameter
 
     def produce_shade(self):
+        """print the produced shade
+        """
         shade = self.height * self.trunk_diameter / 100
         print(f"{self.name} provides {shade} square meters of shade")
 
-    def get_info(self):
+    def get_info(self) -> str:
+        """info of the plant
+
+        Returns:
+            str: info of the plant
+        """
         info = super().get_info() + f", {self.trunk_diameter}cm diameter"
         return info
 
@@ -120,7 +137,12 @@ class Vegetable(Plant):
         self.harvest_season = harvest_season
         self.nutritional_value = nutritional_value
 
-    def get_info(self):
+    def get_info(self) -> str:
+        """info of the plant
+
+        Returns:
+            str: info of the plant
+        """
         info = super().get_info() + f", {self.harvest_season} harvest"
         info += f"\n{self.name} is rich in {self.nutritional_value}"
         return info
