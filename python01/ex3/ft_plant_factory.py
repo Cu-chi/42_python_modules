@@ -16,6 +16,7 @@ class Plant:
             height (int): Plant height
             age (int): Plant age
         """
+        print(f"Created: {name} ({height}cm, {age} days)")
         self.name = name
         self.height = height
         self._age = age
@@ -42,6 +43,7 @@ class Plant:
 
 
 if __name__ == "__main__":
+    print("=== Plant Factory Output ===")
     plants_data = [
         ("Rose", 10, 8),
         ("Cactus", 15, 120),
@@ -49,10 +51,8 @@ if __name__ == "__main__":
         ("Tulip", 8, 12),
         ("Iris", 6, 4),
     ]
+    plants = [Plant(*plant_data) for plant_data in plants_data]
     total_plants = 0
-    print("=== Plant Factory Output ===")
     for plant_data in plants_data:
         total_plants += 1
-        name, height, age = plant_data
-        print(f"Created: {name} ({height}cm, {age} days)")
     print(f"\nTotal plants created: {total_plants}")
