@@ -1,15 +1,13 @@
 class SecurePlant:
-    """
-    A secure class representing a plant
+    """A SecurePlant class
     """
     def __init__(self, name: str, height: int, age: int):
-        """
-        Initialize a SecurePlant object
+        """Initialize a SecurePlant object
 
-        Parameters:
-            name (str): Plant name
-            height (int): Plant height
-            age (int): Plant age
+        Args:
+            name (str): Name of the plant
+            height (int): Height of the plant
+            age (int): Age of the plant
         """
         print("Plant created: " + name)
         self.__name = name
@@ -17,8 +15,10 @@ class SecurePlant:
         self.set_age(age)
 
     def set_height(self, height: int):
-        """
-        Setter for height
+        """Set height of the plant
+
+        Args:
+            height (int): height of the plant
         """
         if height < 0:
             print(f"Invalid operation attempted: height {height}cm "
@@ -29,8 +29,10 @@ class SecurePlant:
         print(f"Height updated: {height}cm [OK]")
 
     def set_age(self, age: int):
-        """
-        Setter for age
+        """Set age of the plant
+
+        Args:
+            age (int): age of the plant
         """
         if age < 0:
             print(f"Invalid operation attempted: age {age} days "
@@ -41,20 +43,23 @@ class SecurePlant:
         print(f"Age updated: {age} days [OK]")
 
     def get_height(self):
-        """
-        Getter for height
+        """Get height of the plant
+
+        Returns:
+            int: height of the plant
         """
         return self.__height
 
     def get_age(self):
-        """
-        Getter for age
+        """Get age of the plant
+
+        Returns:
+            int: age of the plant
         """
         return self.__age
 
     def get_info(self):
-        """
-        Print info of the plant
+        """print info of the plant
         """
         print(f"Current plant: {self.__name} ({self.__height}cm, {self.__age} "
               "days)")

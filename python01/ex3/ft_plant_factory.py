@@ -1,20 +1,13 @@
 class Plant:
-    """
-    A class representing a plant
-
-    Attributes:
-        name (str): Plant name
-        height (int): Plant height
-        age (int): Plant age
+    """A class representing a plant
     """
     def __init__(self, name: str, height: int, age: int):
-        """
-        Initialize a Plant object
+        """Initialize a plant object
 
-        Parameters:
-            name (str): Plant name
-            height (int): Plant height
-            age (int): Plant age
+        Args:
+            name (str): Name of the plant
+            height (int): Height of the plant
+            age (int): Age of the plant
         """
         print(f"Created: {name} ({height}cm, {age} days)")
         self.name = name
@@ -22,22 +15,17 @@ class Plant:
         self._age = age
 
     def grow(self):
-        """
-        Grow the plant
+        """Grow the plant
         """
         self.height += 1
-        return
 
     def age(self):
-        """
-        Age the plant
+        """Age the plant
         """
         self._age += 1
-        return
 
     def get_info(self):
-        """
-        Print info of the plant
+        """Print info of the plant
         """
         print(f"{self.name}: {self.height}cm, {self._age} days old")
 

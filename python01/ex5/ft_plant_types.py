@@ -1,42 +1,30 @@
 class Plant:
-    """
-    A class representing a plant
-
-    Attributes:
-        name (str): Plant name
-        height (int): Plant height
-        age (int): Plant age
+    """A class representing a plant
     """
     def __init__(self, name: str, height: int, age: int):
-        """
-        Initialize a Plant object
+        """Initialize a plant object
 
-        Parameters:
-            name (str): Plant name
-            height (int): Plant height
-            age (int): Plant age
+        Args:
+            name (str): Name of the plant
+            height (int): Height of the plant
+            age (int): Age of the plant
         """
         self.name = name
         self.height = height
         self._age = age
 
     def grow(self):
-        """
-        Grow the plant
+        """Grow the plant
         """
         self.height += 1
-        return
 
     def age(self):
-        """
-        Age the plant
+        """Age the plant
         """
         self._age += 1
-        return
 
     def get_info(self):
-        """
-        Print info of the plant
+        """Print info of the plant
         """
         return (f"{self.name} ({type(self).__name__}): {self.height}cm, "
                 + f"{self._age} days")
@@ -49,7 +37,7 @@ class Flower(Plant):
     Attributes:
         name (str): Flower name
         height (int): Flower height
-        age (int): Flower age
+        _age (int): Flower age
         color (str): Flower color
     """
     def __init__(self, name: str, height: int, age: int, color: str):
@@ -80,10 +68,10 @@ class Tree(Plant):
     Attributes:
         name (str): Tree name
         height (int): Tree height
-        age (int): Tree age
-        trunk_diameter (str): Tree trunk diameter
+        _age (int): Tree age
+        trunk_diameter (int): Tree trunk diameter
     """
-    def __init__(self, name: str, height: int, age: int, trunk_diameter: str):
+    def __init__(self, name: str, height: int, age: int, trunk_diameter: int):
         """
         Initialize a Tree object
 
@@ -91,7 +79,7 @@ class Tree(Plant):
             name (str): Tree name
             height (int): Tree height
             age (int): Tree age
-            trunk_diameter (str): Tree trunk diameter
+            trunk_diameter (int): Tree trunk diameter
         """
         super().__init__(name, height, age)
         self.trunk_diameter = trunk_diameter
@@ -112,7 +100,7 @@ class Vegetable(Plant):
     Attributes:
         name (str): Vegetable name
         height (int): Vegetable height
-        age (int): Vegetable age
+        _age (int): Vegetable age
         harvest_season (str): Vegetable harvest season
         nutritional_value (str): Vegetable nutritional value
     """
@@ -146,7 +134,7 @@ if __name__ == "__main__":
         (Tree, "Oak", 620, 2300, 80),
         (Tree, "Coconut", 800, 5400, 40),
         (Vegetable, "Tomato", 70, 80, "summer", "vitamin C"),
-        (Vegetable, "Pumpkin", 20, 30, "automn", "vitamin E"),
+        (Vegetable, "Pumpkin", 20, 30, "autumn", "vitamin E"),
     ]
     plants = [plant[0](*plant[1:]) for plant in plants_data]
     for plant in plants:

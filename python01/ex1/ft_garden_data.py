@@ -1,20 +1,13 @@
 class Plant:
-    """
-    A class representing a plant
-
-    Attributes:
-        name (str): Plant name
-        height (int): Plant height
-        age (int): Plant age
+    """A class representing a plant
     """
     def __init__(self, name: str, height: int, age: int):
-        """
-        Initialize a Plant object
+        """Initialize a plant object
 
-        Parameters:
-            name (str): Plant name
-            height (int): Plant height
-            age (int): Plant age
+        Args:
+            name (str): Name of the plant
+            height (int): Height of the plant
+            age (int): Age of the plant
         """
         self.name = name
         self.height = height
