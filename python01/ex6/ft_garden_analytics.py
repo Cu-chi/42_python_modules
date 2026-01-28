@@ -14,6 +14,11 @@ class Garden:
         self.stats: GardenManager.GardenStats = stats()
 
     def add_plant(self, plant: 'Plant') -> None:
+        """add a plant to the garden
+
+        Args:
+            plant (Plant): The Plant object
+        """
         print(f"Added {plant.name} to {self.garden_name}'s garden")
         self.plants = self.plants + [plant]
         self.stats.added += 1
@@ -25,12 +30,16 @@ class Garden:
             self.stats.prize_flower += 1
 
     def grow_all(self) -> None:
+        """Grow all plants in the garden
+        """
         print(f"{self.garden_name} is helping all plants grow...")
         for plant in self.plants:
             self.stats.total_growth += 1
             plant.grow()
 
     def report(self) -> None:
+        """Print the stats report of the garden
+        """
         print(f"=== {self.garden_name}'s Garden Report ===")
         print("Plants in garden:")
         for plant in self.plants:
@@ -40,8 +49,14 @@ class Garden:
 
 
 class GardenManager:
+    """A class representing a Garden Manager
+    """
     class GardenStats:
+        """A helper class used to make stats on garden
+        """
         def __init__(self) -> None:
+            """Initialize a GardenStats object
+            """
             self.added: int = 0
             self.total_growth: int = 0
             self.regular: int = 0
@@ -50,6 +65,11 @@ class GardenManager:
             self.score: int = 0
 
         def report(self) -> str:
+            """Generate the string for the garden report
+
+            Returns:
+                str: report
+            """
             report: str = f"Plants added: {self.added}"
             report += f", Total growth: {self.total_growth}cm"
             report += f"\nPlant types: {self.regular} regular"
@@ -58,10 +78,24 @@ class GardenManager:
             return report
 
     def __init__(self, gardens: list[Garden]) -> None:
+        """Initialize a GardenManager object
+
+        Args:
+            gardens (list[Garden]): list of gardens
+        """
         self.gardens: list[Garden] = gardens
 
     @classmethod
     def create_garden_network(cls, gardens_data: list) -> 'GardenManager':
+        """Create and initialize a garden network
+        it takes the data of gardens and create a clean list of Garden objects
+
+        Args:
+            gardens_data (list): list of unformatted gardens
+
+        Returns:
+            GardenManager: The GardenManager object created
+        """
         gardens: list[Garden] = []
         for row in gardens_data:
             name: str = row[0]
@@ -75,28 +109,55 @@ class GardenManager:
             garden.add_plant(plant_object)
         return cls(gardens)
 
-    def add_plant_to(self, plant, garden_name) -> None:
+    def add_plant_to(self, plant: 'Plant' | 'FloweringPlant' | 'PrizeFlower',
+                     garden_name: str) -> None:
+        """Add a plant to the garden of the name specified
+
+        Args:
+            plant (Plant | FloweringPlant | PrizeFlower): the Plant object
+            garden_name (str): The Garden Name
+        """
         garden: Garden = GardenManager.get_garden(self.gardens, garden_name)
         if garden:
             garden.add_plant(plant)
 
     def get_total_managed(self) -> int:
+        """Get the number of managed gardens
+
+        Returns:
+            int: number of managed gardens
+        """
         total_managed: int = 0
         for _ in self.gardens:
             total_managed += 1
         return total_managed
 
     def grow_all(self, garden_name: str) -> None:
+        """Grow all plants of the garden name specified
+
+        Args:
+            garden_name (str): Garden name
+        """
         garden: Garden = GardenManager.get_garden(self.gardens, garden_name)
         if garden:
             garden.grow_all()
 
     def report(self, garden_name: str) -> None:
+        """Generate the stats report of the garden name specified
+
+        Args:
+            garden_name (str): Garden name
+        """
         garden: Garden = GardenManager.get_garden(self.gardens, garden_name)
         if garden:
             garden.report()
 
     def calculate_scores(self) -> str:
+        """Calculate the scores of gardens
+
+        Returns:
+            str: the formated scores
+        """
         result: str = ""
         first: bool = True
         for garden in self.gardens:
@@ -112,13 +173,27 @@ class GardenManager:
         return result
 
     @staticmethod
-    def get_garden(gardens: list, garden_name: str) -> Garden | None:
+    def get_garden(gardens: list[Garden], garden_name: str) -> Garden | None:
+        """Get a garden from its name in a list of garden
+
+        Args:
+            gardens (list[Garden]): list of gardens object
+            garden_name (str): garden name to get
+
+        Returns:
+            Garden | None: Garden object or None if doesn't exist
+        """
         for garden in gardens:
             if garden.garden_name == garden_name:
                 return garden
         return None
 
     def validate_height(self) -> bool:
+        """Check all height of all plants of all gardens
+
+        Returns:
+            bool: True if all height are valid, False if not
+        """
         status: bool = True
         for garden in self.gardens:
             for plant in garden.plants:
@@ -208,7 +283,7 @@ class PrizeFlower(FloweringPlant):
 
 if __name__ == "__main__":
     print("=== Garden Management System Demo ===\n")
-    gardens_data = [
+    gardens_data: list = [
         ("Alice", Plant, "Oak Tree", 620, 2300),
         ("Alice", FloweringPlant, "Rose", 10, 8, "red"),
         ("Alice", PrizeFlower, "Sunflower", 15, 20, "yellow", 10),

@@ -1,7 +1,7 @@
 class Plant:
     """A class representing a plant
     """
-    def __init__(self, name: str, height: int, age: int):
+    def __init__(self, name: str, height: int, age: int) -> None:
         """Initialize a plant object
 
         Args:
@@ -9,16 +9,16 @@ class Plant:
             height (int): Height of the plant
             age (int): Age of the plant
         """
-        self.name = name
-        self.height = height
-        self._age = age
+        self.name: str = name
+        self.height: int = height
+        self._age: int = age
 
-    def grow(self):
+    def grow(self) -> None:
         """Grow the plant
         """
         self.height += 1
 
-    def age(self):
+    def age(self) -> None:
         """Age the plant
         """
         self._age += 1
@@ -34,16 +34,9 @@ class Plant:
 
 
 class Flower(Plant):
+    """A class representing a flower, inherits from Plant
     """
-    A class representing a flower, inherits from Plant
-
-    Attributes:
-        name (str): Flower name
-        height (int): Flower height
-        _age (int): Flower age
-        color (str): Flower color
-    """
-    def __init__(self, name: str, height: int, age: int, color: str):
+    def __init__(self, name: str, height: int, age: int, color: str) -> None:
         """
         Initialize a Flower object
 
@@ -54,9 +47,9 @@ class Flower(Plant):
             color (str): Flower color
         """
         super().__init__(name, height, age)
-        self.color = color
+        self.color: str = color
 
-    def bloom(self):
+    def bloom(self) -> None:
         """make the flower bloom
         """
         print(f"{self.name} is blooming beautifully!")
@@ -67,21 +60,15 @@ class Flower(Plant):
         Returns:
             str: info of the plant
         """
-        info = super().get_info()
+        info: str = super().get_info()
         return info + f", {self.color} color"
 
 
 class Tree(Plant):
+    """A class representing a tree, inherits from Plant
     """
-    A class representing a tree, inherits from Plant
-
-    Attributes:
-        name (str): Tree name
-        height (int): Tree height
-        _age (int): Tree age
-        trunk_diameter (int): Tree trunk diameter
-    """
-    def __init__(self, name: str, height: int, age: int, trunk_diameter: int):
+    def __init__(self, name: str, height: int, age: int,
+                 trunk_diameter: int) -> None:
         """
         Initialize a Tree object
 
@@ -94,10 +81,10 @@ class Tree(Plant):
         super().__init__(name, height, age)
         self.trunk_diameter = trunk_diameter
 
-    def produce_shade(self):
+    def produce_shade(self) -> None:
         """print the produced shade
         """
-        shade = self.height * self.trunk_diameter / 100
+        shade: int = self.trunk_diameter * 8
         print(f"{self.name} provides {shade} square meters of shade")
 
     def get_info(self) -> str:
@@ -106,23 +93,14 @@ class Tree(Plant):
         Returns:
             str: info of the plant
         """
-        info = super().get_info() + f", {self.trunk_diameter}cm diameter"
-        return info
+        return super().get_info() + f", {self.trunk_diameter}cm diameter"
 
 
 class Vegetable(Plant):
-    """
-    A class representing a vegetable, inherits from Plant
-
-    Attributes:
-        name (str): Vegetable name
-        height (int): Vegetable height
-        _age (int): Vegetable age
-        harvest_season (str): Vegetable harvest season
-        nutritional_value (str): Vegetable nutritional value
+    """A class representing a vegetable, inherits from Plant
     """
     def __init__(self, name: str, height: int, age: int, harvest_season: str,
-                 nutritional_value: str):
+                 nutritional_value: str) -> None:
         """
         Initialize a vegetable object
 
@@ -134,8 +112,8 @@ class Vegetable(Plant):
             nutritional_value (str): Vegetable nutritional value
         """
         super().__init__(name, height, age)
-        self.harvest_season = harvest_season
-        self.nutritional_value = nutritional_value
+        self.harvest_season: str = harvest_season
+        self.nutritional_value: str = nutritional_value
 
     def get_info(self) -> str:
         """info of the plant
@@ -143,23 +121,21 @@ class Vegetable(Plant):
         Returns:
             str: info of the plant
         """
-        info = super().get_info() + f", {self.harvest_season} harvest"
+        info: str = super().get_info() + f", {self.harvest_season} harvest"
         info += f"\n{self.name} is rich in {self.nutritional_value}"
         return info
 
 
 if __name__ == "__main__":
     print("=== Garden Plant Types ===")
-    plants_data = [
-        (Flower, "Rose", 10, 8, "red"),
-        (Flower, "Sunflower", 15, 20, "yellow"),
-        (Tree, "Oak", 620, 2300, 80),
-        (Tree, "Coconut", 800, 5400, 40),
-        (Vegetable, "Tomato", 70, 80, "summer", "vitamin C"),
-        (Vegetable, "Pumpkin", 20, 30, "autumn", "vitamin E"),
+    plants_data: list = [
+        (Flower, "Rose", 25, 30, "red"),
+        (Tree, "Oak", 500, 1825, 50),
+        (Vegetable, "Tomato", 80, 90, "summer", "vitamin C"),
     ]
-    plants = [plant[0](*plant[1:]) for plant in plants_data]
+    plants: list = [plant[0](*plant[1:]) for plant in plants_data]
     for plant in plants:
+        print()
         print(plant.get_info())
         if plant.__class__.__name__ == "Tree":
             plant.produce_shade()

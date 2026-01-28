@@ -1,7 +1,7 @@
 class SecurePlant:
     """A SecurePlant class
     """
-    def __init__(self, name: str, height: int, age: int):
+    def __init__(self, name: str, height: int, age: int) -> None:
         """Initialize a SecurePlant object
 
         Args:
@@ -10,13 +10,13 @@ class SecurePlant:
             age (int): Age of the plant
         """
         print("Plant created: " + name)
-        self.__name = name
-        self.__height = 0
-        self.__age = 0
+        self.__name: str = name
+        self.__height: int = 0
+        self.__age: int = 0
         self.set_height(height)
         self.set_age(age)
 
-    def set_height(self, height: int):
+    def set_height(self, height: int) -> None:
         """Set height of the plant
 
         Args:
@@ -30,7 +30,7 @@ class SecurePlant:
         self.__height = height
         print(f"Height updated: {height}cm [OK]")
 
-    def set_age(self, age: int):
+    def set_age(self, age: int) -> None:
         """Set age of the plant
 
         Args:
@@ -44,7 +44,7 @@ class SecurePlant:
         self.__age = age
         print(f"Age updated: {age} days [OK]")
 
-    def get_height(self):
+    def get_height(self) -> int:
         """Get height of the plant
 
         Returns:
@@ -52,7 +52,7 @@ class SecurePlant:
         """
         return self.__height
 
-    def get_age(self):
+    def get_age(self) -> int:
         """Get age of the plant
 
         Returns:
@@ -60,7 +60,7 @@ class SecurePlant:
         """
         return self.__age
 
-    def get_info(self):
+    def get_info(self) -> None:
         """print info of the plant
         """
         print(f"Current plant: {self.__name} ({self.__height}cm, {self.__age} "
@@ -69,9 +69,8 @@ class SecurePlant:
 
 if __name__ == "__main__":
     print("=== Garden Security System ===")
-    rose = SecurePlant("Rose", 25, 30)
-    rose.set_height(-10)
-    rose.set_age(-5)
-    rose.set_height(26)
-    rose.set_age(31)
+    rose: SecurePlant = SecurePlant("Rose", 25, 30)
+    print()
+    rose.set_height(-5)
+    print()
     rose.get_info()

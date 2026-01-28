@@ -1,7 +1,7 @@
 class Plant:
     """A class representing a plant
     """
-    def __init__(self, name: str, height: int, age: int):
+    def __init__(self, name: str, height: int, age: int) -> None:
         """Initialize a plant object
 
         Args:
@@ -9,13 +9,13 @@ class Plant:
             height (int): Height of the plant
             age (int): Age of the plant
         """
-        self.name = name
-        self.height = height
-        self.age = age
+        self.name: str = name
+        self.height: int = height
+        self.age: int = age
 
 
 if __name__ == "__main__":
-    plants = [
+    plants: list[Plant] = [
         Plant("Rose", 25, 30),
         Plant("Sunflower", 80, 45),
         Plant("Cactus", 15, 120)
