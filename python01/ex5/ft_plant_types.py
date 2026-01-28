@@ -29,7 +29,7 @@ class Plant:
         Returns:
             str: info of the plant
         """
-        return (f"{self.name} ({type(self).__name__}): {self.height}cm, "
+        return (f"{self.name} ({self.__class__.__name__}): {self.height}cm, "
                 + f"{self._age} days")
 
 
@@ -161,7 +161,7 @@ if __name__ == "__main__":
     plants = [plant[0](*plant[1:]) for plant in plants_data]
     for plant in plants:
         print(plant.get_info())
-        if type(plant).__name__ == "Tree":
+        if plant.__class__.__name__ == "Tree":
             plant.produce_shade()
-        elif type(plant).__name__ == "Flower":
+        elif plant.__class__.__name__ == "Flower":
             plant.bloom()
