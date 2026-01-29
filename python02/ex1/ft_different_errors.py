@@ -1,29 +1,32 @@
-def garden_operations(test):
-    try:
-        if test == 0:
-            tester = int("abc")
-        elif test == 1:
-            tester = 1/0
-        elif test == 2:
-            tester = open("nono.txt")
-        elif test == 3:
-            tester = {"t": 0, "b": 1}
-            tester["nono"]
-        elif test == 4:
-            tester = "a" + 2
-    except ValueError:
-        print("Caught ValueError: invalid literal for int()")
-    except ZeroDivisionError:
-        print("Caught ZeroDivisionError: division by zero")
-    except FileNotFoundError:
-        print("Caught FileNotFoundError: No such file 'nono.txt'")
-    except KeyError:
-        print("Caught KeyError: 'nono'")
-    except Exception:
-        print("Caught an error, but program continues!")
+def garden_operations(test) -> None:
+    if test == 0:
+        try:
+            raise ValueError
+        except ValueError:
+            print("Caught ValueError: invalid literal for int()")
+    elif test == 1:
+        try:
+            raise ZeroDivisionError
+        except ZeroDivisionError:
+            print("Caught ZeroDivisionError: division by zero")
+    elif test == 2:
+        try:
+            raise FileNotFoundError
+        except FileNotFoundError:
+            print("Caught FileNotFoundError: No such file 'nono.txt'")
+    elif test == 3:
+        try:
+            raise KeyError
+        except KeyError:
+            print("Caught KeyError: 'nono'")
+    elif test == 4:
+        try:
+            raise ValueError
+        except (ValueError, ZeroDivisionError):
+            print("Caught an error, but program continues!")
 
 
-def test_error_types():
+def test_error_types() -> None:
     print("=== Garden Error Types Demo ===\n")
     print("Testing ValueError")
     garden_operations(0)
