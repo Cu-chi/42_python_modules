@@ -289,7 +289,7 @@ if __name__ == "__main__":
         ("Alice", PrizeFlower, "Sunflower", 15, 20, "yellow", 10),
         ("Bob", FloweringPlant, "Tulip", 25, 7, "pink")
     ]
-    manager = GardenManager.create_garden_network(gardens_data)
+    manager: GardenManager = GardenManager.create_garden_network(gardens_data)
     print()
     manager.grow_all("Alice")
     print()
