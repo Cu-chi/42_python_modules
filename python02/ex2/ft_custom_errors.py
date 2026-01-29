@@ -1,7 +1,7 @@
 class GardenError(Exception):
-    def __init__(self, message, *args) -> None:
+    def __init__(self, message: str, *args) -> None:
         super().__init__(*args)
-        self.message = message
+        self.message: str = message
 
 
 class PlantError(GardenError):
