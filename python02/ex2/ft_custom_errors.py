@@ -1,28 +1,28 @@
 class GardenError(Exception):
-    def __init__(self, message, *args):
+    def __init__(self, message, *args) -> None:
         super().__init__(*args)
         self.message = message
 
 
 class PlantError(GardenError):
-    def __init__(self, *args):
+    def __init__(self, *args) -> None:
         super().__init__(*args)
 
 
 class WaterError(GardenError):
-    def __init__(self, *args):
+    def __init__(self, *args) -> None:
         super().__init__(*args)
 
 
-def plant_error():
+def plant_error() -> None:
     raise PlantError("The tomato plant is wilting!")
 
 
-def water_error():
+def water_error() -> None:
     raise WaterError("Not enough water in the tank!")
 
 
-def test_custom_error_types():
+def test_custom_error_types() -> None:
     print("=== Custom Garden Errors Demo ===")
     print("\nTesting PlantError...")
     try:
