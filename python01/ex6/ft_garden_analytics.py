@@ -109,7 +109,7 @@ class GardenManager:
             garden.add_plant(plant_object)
         return cls(gardens)
 
-    def add_plant_to(self, plant: 'Plant' | 'FloweringPlant' | 'PrizeFlower',
+    def add_plant_to(self, plant: 'Plant | FloweringPlant | PrizeFlower',
                      garden_name: str) -> None:
         """Add a plant to the garden of the name specified
 
@@ -169,6 +169,8 @@ class GardenManager:
             score: int = 0
             for plant in garden.plants:
                 score += plant.height
+                if plant.__class__.__name__ == "PrizeFlower":
+                    score += plant.prize
             result += f"{score}"
         return result
 
