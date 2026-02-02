@@ -1,13 +1,14 @@
 import sys
 
-def main():
+
+def main() -> None:
     print("=== Player Score Analytics ===")
-    args_len = len(sys.argv)
+    args_len: int = len(sys.argv)
     if args_len <= 1:
         print("No scores provided. Usage: python3 ft_score_analytics.py"
               "<score1> <score2> ...")
-    
-    scores = []
+
+    scores: list[int] = []
     for arg in sys.argv[1:]:
         try:
             scores = scores + [int(arg)]
@@ -21,6 +22,7 @@ def main():
     print(f"High score: {max(scores)}")
     print(f"Low score: {min(scores)}")
     print(f"Score range: {max(scores) - min(scores)}")
+
 
 if __name__ == "__main__":
     main()

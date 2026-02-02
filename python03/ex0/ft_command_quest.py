@@ -1,7 +1,7 @@
 import sys
 
 if __name__ == "__main__":
-    args_len = len(sys.argv)
+    args_len: int = len(sys.argv)
     print("=== Command Quest ===")
     if args_len <= 1:
         print("No arguments provided!")
