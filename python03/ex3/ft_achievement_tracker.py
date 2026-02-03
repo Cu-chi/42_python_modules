@@ -1,5 +1,3 @@
-#  set(), len(), print(), union(), intersection(), difference()
-
 def main() -> None:
     print("=== Achievement Tracker System ===\n")
     alice_achievements: set[str] = {'first_kill', 'level_10',
