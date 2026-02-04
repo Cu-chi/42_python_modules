@@ -11,15 +11,15 @@ def main() -> None:
     print(f"Player bob achievements: {bob_achievements}")
     print(f"Player charlie achievements: {charlie_achievements}")
     print("\n=== Achievement Analytics ===")
-    achievement: set[str] = alice_achievements\
+    achievements: set[str] = alice_achievements\
         .union(bob_achievements).union(charlie_achievements)
-    print(f"All unique achievements: {achievement}")
-    print(f"Total unique achievements: {len(achievement)}\n")
+    print(f"All unique achievements: {achievements}")
+    print(f"Total unique achievements: {len(achievements)}\n")
     common_to_all: set[str] = alice_achievements\
         .intersection(bob_achievements).intersection(charlie_achievements)
     print(f"Common to all players: {common_to_all}")
     rare: set[str] = set()
-    for achievement in achievement:
+    for achievement in achievements:
         nb = 0
         if achievement in alice_achievements:
             nb += 1

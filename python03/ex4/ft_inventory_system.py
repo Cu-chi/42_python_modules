@@ -6,7 +6,7 @@ class InventoryError(Exception):
         super().__init__(*args)
 
 
-def arg_split(input_string: str) -> None | tuple[str, str]:
+def arg_split(input_string: str) -> tuple[str, str]:
     dot_pos: int = -1
     i: int = 0
     for char in input_string:
@@ -14,19 +14,17 @@ def arg_split(input_string: str) -> None | tuple[str, str]:
             dot_pos = i
             break
         i += 1
-    if dot_pos == -1:
-        return None
+    if dot_pos == -1 or dot_pos == i - 1:
+        raise InventoryError(f"error parsing arg '{input_string}'")
     return (input_string[:dot_pos], input_string[(dot_pos + 1):])
 
 
-def create_dict(args: list[str]) -> dict[str, int] | None:
+def create_dict(args: list[str]) -> dict[str, int]:
     arg_dict: dict[str, int] = {}
     for arg in args:
         key: str
         value: str
         key, value = arg_split(arg)
-        if key is None or value is None:
-            raise InventoryError(f"error parsing arg '{arg}'")
         amount: int = int(value)
         if (amount <= 0):
             raise InventoryError(f"invalid amount of '{key}': {value}")
@@ -34,18 +32,18 @@ def create_dict(args: list[str]) -> dict[str, int] | None:
     return arg_dict
 
 
-def get_most_abundant(inv: dict[str, int]) -> None | str:
-    most_abundant: str = None
+def get_most_abundant(inv: dict[str, int]) -> str:
+    most_abundant: str = ""
     for key, value in inv.items():
-        if most_abundant is None or value > inv[most_abundant]:
+        if most_abundant == "" or value > inv[most_abundant]:
             most_abundant = key
     return most_abundant
 
 
-def get_least_abundant(inv: dict[str, int]) -> None | str:
-    least_abundant: str = None
+def get_least_abundant(inv: dict[str, int]) -> str:
+    least_abundant: str = ""
     for key, value in inv.items():
-        if least_abundant is None or value < inv[least_abundant]:
+        if least_abundant == "" or value < inv[least_abundant]:
             least_abundant = key
     return least_abundant
 
@@ -78,7 +76,7 @@ def get_restock_needed(inv: dict[str, int]) -> list[str]:
 
 def main() -> None:
     try:
-        inventory: dict[str, int] | None = create_dict(sys.argv[1:])
+        inventory: dict[str, int] = create_dict(sys.argv[1:])
         print("=== Inventory System Analysis ===")
         total_items: int = 0
         for value in inventory.values():
@@ -96,15 +94,15 @@ def main() -> None:
             print(f"({value/total_items*100:.1f}%)")
 
         print("\n=== Inventory Statistics ===")
-        most_abundant: None | str = get_most_abundant(inventory)
-        if most_abundant is not None:
+        most_abundant: str = get_most_abundant(inventory)
+        if most_abundant != "":
             print(f"Most abundant: {most_abundant}", end="")
             if inventory[most_abundant] > 1:
                 print(f" ({inventory[most_abundant]} units)")
             else:
                 print(f" ({inventory[most_abundant]} unit)")
-        least_abundant: None | str = get_least_abundant(inventory)
-        if least_abundant is not None:
+        least_abundant: str = get_least_abundant(inventory)
+        if least_abundant != "":
             print(f"Least abundant: {least_abundant}", end="")
             if inventory[least_abundant] > 1:
                 print(f" ({inventory[least_abundant]} units)")
