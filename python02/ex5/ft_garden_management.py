@@ -1,14 +1,14 @@
-class WateringError(Exception):
-    def __init__(self, *args) -> None:
-        super().__init__(*args)
-
-
-class PlantHealthError(Exception):
-    def __init__(self, *args) -> None:
-        super().__init__(*args)
-
-
 class GardenError(Exception):
+    def __init__(self, *args) -> None:
+        super().__init__(*args)
+
+
+class WateringError(GardenError):
+    def __init__(self, *args) -> None:
+        super().__init__(*args)
+
+
+class PlantHealthError(GardenError):
     def __init__(self, *args) -> None:
         super().__init__(*args)
 

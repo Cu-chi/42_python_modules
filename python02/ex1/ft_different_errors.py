@@ -42,7 +42,7 @@ def test_error_types() -> None:
     print()
     print("Testing multiple errors together...")
     garden_operations(4)
-    print("All error types tested successfully!")
+    print("\nAll error types tested successfully!")
 
 
 if __name__ == "__main__":
