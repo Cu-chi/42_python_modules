@@ -50,8 +50,32 @@ def get_least_abundant(inv: dict[str, int]) -> None | str:
     return least_abundant
 
 
-# dict(), len(), print(), keys(), values(), items(), get(),
-# update(), sys, sys.argv
+def create_categories(inv: dict[str, int],
+                      total_items: int) -> dict[str, dict[str, int]]:
+    categories: dict[str, dict[str, int]] = {
+        "Common": {},
+        "Moderate": {},
+        "Scarce": {}
+    }
+    for key, value in inv.items():
+        percentage: float = value / total_items
+        if percentage < 0.3:
+            categories["Scarce"].update({key: value})
+        elif percentage < 0.5:
+            categories["Moderate"].update({key: value})
+        else:
+            categories["Common"].update({key: value})
+    return categories
+
+
+def get_restock_needed(inv: dict[str, int]) -> list[str]:
+    restock_needed: list[str] = []
+    for key, value in inv.items():
+        if value <= 1:
+            restock_needed = restock_needed + [key]
+    return restock_needed
+
+
 def main() -> None:
     inventory: dict
     try:
@@ -89,7 +113,13 @@ def main() -> None:
                 print(f" ({inventory[least_abundant]} unit)")
 
         print("\n=== Inventory Categories ===")
+        categories: dict[str, dict[str, int]] = create_categories(inventory,
+                                                                  total_items)
+        for categorie in categories.keys():
+            if len(categories[categorie]) > 0:
+                print(f"{categorie}: {categories[categorie]}")
         print("\n=== Management Suggestions ===")
+        print(f"Restock needed: {get_restock_needed(inventory)}")
         print("\n=== Dictionary Properties Demo ===")
         print(f"Dictionnary keys: {inventory.keys()}")
         print(f"Dictionnary values: {inventory.values()}")
