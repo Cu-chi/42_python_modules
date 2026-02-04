@@ -8,7 +8,7 @@ class InventoryError(Exception):
 
 def arg_split(input_string: str) -> None | tuple[str, str]:
     dot_pos: int = -1
-    i = 0
+    i: int = 0
     for char in input_string:
         if char == ":":
             dot_pos = i
@@ -19,8 +19,8 @@ def arg_split(input_string: str) -> None | tuple[str, str]:
     return (input_string[:dot_pos], input_string[(dot_pos + 1):])
 
 
-def create_dict(args: list[str]) -> dict | None:
-    arg_dict: dict = {}
+def create_dict(args: list[str]) -> dict[str, int] | None:
+    arg_dict: dict[str, int] = {}
     for arg in args:
         key: str
         value: str
@@ -77,11 +77,10 @@ def get_restock_needed(inv: dict[str, int]) -> list[str]:
 
 
 def main() -> None:
-    inventory: dict
     try:
-        inventory = create_dict(sys.argv[1:])
+        inventory: dict[str, int] | None = create_dict(sys.argv[1:])
         print("=== Inventory System Analysis ===")
-        total_items = 0
+        total_items: int = 0
         for value in inventory.values():
             total_items += value
         print(f"Total items in inventory: {total_items}")
@@ -121,8 +120,14 @@ def main() -> None:
         print("\n=== Management Suggestions ===")
         print(f"Restock needed: {get_restock_needed(inventory)}")
         print("\n=== Dictionary Properties Demo ===")
-        print(f"Dictionnary keys: {inventory.keys()}")
-        print(f"Dictionnary values: {inventory.values()}")
+        dict_keys: list[str] = []
+        for key in inventory.keys():
+            dict_keys = dict_keys + [key]
+        print(f"Dictionnary keys: {dict_keys}")
+        dict_values: list[int] = []
+        for value in inventory.values():
+            dict_values = dict_values + [value]
+        print(f"Dictionnary values: {dict_values}")
         print("Sample lookup - 'sword' in inventory:"
               f" {inventory.get('sword') is not None}")
 
