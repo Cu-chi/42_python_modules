@@ -28,6 +28,7 @@ def create_dict(args: list[str]) -> dict[str, int]:
         amount: int = int(value)
         if (amount <= 0):
             raise InventoryError(f"invalid amount of '{key}': {value}")
+        amount += arg_dict.get(key, 0)
         arg_dict.update({key: amount})
     return arg_dict
 
