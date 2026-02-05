@@ -1,4 +1,4 @@
-from typing import Generator
+from typing import Generator, Any
 
 
 def generator_fibonacci(limit: int) -> Generator[int, None, None]:
@@ -26,7 +26,7 @@ def generator_prime(limit: int) -> Generator[int, None, None]:
 
 
 def generator(number: int = 1000)\
-        -> Generator[dict[str, int | str | dict[str, int]], None, None]:
+        -> Generator[dict[str, Any], None, None]:
     players: list[str] = ["JAMES", "JOHN", "ROBERT", "MICHAEL", "WILLIAM",
                           "DAVID", "RICHARD", "CHARLES", "JOSEPH", "THOMAS",
                           "CHRISTOPHER", "DANIEL", "PAUL", "MARK", "DONALD",
@@ -40,7 +40,7 @@ def generator(number: int = 1000)\
     event_types: list[str] = ["login", "logout", "kill",
                               "death", "level_up", "item_found"]
     for event_id in range(1, number + 1):
-        event: dict[str, int | str | dict[str, int]] = {
+        event: dict[str, Any] = {
             "id": event_id,
             "player": players[event_id % 50],
             "event_type": event_types[event_id % 6],
@@ -51,7 +51,7 @@ def generator(number: int = 1000)\
         yield event
 
 
-def format_event(event: dict[str, int | str | dict[str, int]]) -> str:
+def format_event(event: dict[str, Any]) -> str:
     format: str = f"Event {event['id']}: Player {event['player']} "
     format += f"(level {event['data']['level']}) "
     if event["event_type"] == "login":
