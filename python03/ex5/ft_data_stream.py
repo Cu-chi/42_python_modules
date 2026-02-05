@@ -1,24 +1,26 @@
 from typing import Generator
 
 
-def generator_fibonacci() -> Generator[int, None, None]:
+def generator_fibonacci(limit: int) -> Generator[int, None, None]:
     n1: int = 0
     n2: int = 1
     yield n1
-    while True:
+    for _ in range(limit - 1):
         n1, n2 = n2, n1 + n2
         yield n1
 
 
-def generator_prime() -> Generator[int, None, None]:
+def generator_prime(limit: int) -> Generator[int, None, None]:
     n: int = 2
-    while True:
+    found: int = 0
+    while found < limit:
         is_prime: bool = True
         for i in range(2, n):
             if n % i == 0:
                 is_prime = False
                 break
         if is_prime:
+            found += 1
             yield n
         n += 1
 
@@ -98,7 +100,7 @@ def main() -> None:
 
     print("\n=== Generator Demonstration ===")
     print("Fibonacci sequence (first 10): ", end="")
-    fibonacci_generator: Generator[int, None, None] = generator_fibonacci()
+    fibonacci_generator: Generator[int, None, None] = generator_fibonacci(10)
     for i in range(10):
         print(f"{next(fibonacci_generator)}", end="")
         if i < 9:
@@ -106,7 +108,7 @@ def main() -> None:
         else:
             print()
     print("Prime numbers (first 5): ", end="")
-    prime_generator: Generator[int, None, None] = generator_prime()
+    prime_generator: Generator[int, None, None] = generator_prime(5)
     for i in range(5):
         print(f"{next(prime_generator)}", end="")
         if i < 4:
