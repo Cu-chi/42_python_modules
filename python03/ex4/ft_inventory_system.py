@@ -76,6 +76,10 @@ def get_restock_needed(inv: dict[str, int]) -> list[str]:
 
 
 def main() -> None:
+    if len(sys.argv) <= 1:
+        print("No items provided. Usage: python3 ft_inventory_system.py"
+              " <item1>:<count> <item2>:<count> ...")
+        return
     try:
         inventory: dict[str, int] = create_dict(sys.argv[1:])
         print("=== Inventory System Analysis ===")
