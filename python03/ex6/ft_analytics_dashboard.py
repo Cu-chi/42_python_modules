@@ -1,4 +1,3 @@
-# len(), print(), sum(), max(), min(), sorted()
 from typing import Any
 
 
