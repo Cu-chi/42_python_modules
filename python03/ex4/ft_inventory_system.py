@@ -25,8 +25,10 @@ def create_dict(args: list[str]) -> dict[str, int]:
         key: str
         value: str
         key, value = arg_split(arg)
+        if key == "":
+            raise InventoryError("item name can't be empty")
         amount: int = int(value)
-        if (amount <= 0):
+        if amount <= 0:
             raise InventoryError(f"invalid amount of '{key}': {value}")
         amount += arg_dict.get(key, 0)
         arg_dict.update({key: amount})
