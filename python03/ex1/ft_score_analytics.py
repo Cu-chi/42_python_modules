@@ -6,7 +6,7 @@ def main() -> None:
     args_len: int = len(sys.argv)
     if args_len <= 1:
         print("No scores provided. Usage: python3 ft_score_analytics.py"
-              "<score1> <score2> ...")
+              " <score1> <score2> ...")
         return
 
     scores: list[int] = []
