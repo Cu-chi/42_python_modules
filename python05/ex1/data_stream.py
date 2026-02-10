@@ -270,20 +270,25 @@ def polymorphic_stream() -> None:
         stream_processor.add_stream(streams[key][0])
     print("\nBatch 1 Results:")
     for stream in stream_processor.streams:
-        stream.process_batch(streams[stream.stream_id][1])
-        if isinstance(stream, SensorStream):
-            print(f"- Sensor data: {stream.processed} reading", end="")
-            if stream.processed > 1:
-                print("s", end="")
-        elif isinstance(stream, TransactionStream):
-            print(f"- Transaction data: {stream.processed} operation", end="")
-            if stream.processed > 1:
-                print("s", end="")
-        elif isinstance(stream, EventStream):
-            print(f"- Event data: {stream.processed} event", end="")
-            if stream.processed > 1:
-                print("s", end="")
-        print(" processed")
+        try:
+            stream.process_batch(streams[stream.stream_id][1])
+            if isinstance(stream, SensorStream):
+                print(f"- Sensor data: {stream.processed} reading", end="")
+                if stream.processed > 1:
+                    print("s", end="")
+            elif isinstance(stream, TransactionStream):
+                print(f"- Transaction data: {stream.processed} operation",
+                      end="")
+                if stream.processed > 1:
+                    print("s", end="")
+            elif isinstance(stream, EventStream):
+                print(f"- Event data: {stream.processed} event", end="")
+                if stream.processed > 1:
+                    print("s", end="")
+            print(" processed")
+        except Exception as e:
+            print("Caught error in the stream processor, skipping stream")
+            print(f"{e.__class__.__name__}: {e}")
 
     print("\nStream filtering active: High-priority data only")
     filtered_results: Dict[str, int] = {
@@ -294,17 +299,21 @@ def polymorphic_stream() -> None:
     for stream in stream_processor.streams:
         filtered: List[Any] = []
         is_transaction: bool = isinstance(stream, TransactionStream)
-        if is_transaction:
-            filtered = stream.filter_data(streams[stream.stream_id][1],
-                                          "high-priority")
-        else:
-            filtered = stream.filter_data(streams[stream.stream_id][1],
-                                          "critical")
-        for _ in filtered:
+        try:
             if is_transaction:
-                filtered_results["high-priority"] += 1
+                filtered = stream.filter_data(streams[stream.stream_id][1],
+                                              "high-priority")
             else:
-                filtered_results["critical"] += 1
+                filtered = stream.filter_data(streams[stream.stream_id][1],
+                                              "critical")
+            for _ in filtered:
+                if is_transaction:
+                    filtered_results["high-priority"] += 1
+                else:
+                    filtered_results["critical"] += 1
+        except Exception as e:
+            print("Caught error in the stream processor, skipping stream")
+            print(f"{e.__class__.__name__}: {e}")
     print(f"{filtered_results['critical']} critical sensor alert", end="")
     if filtered_results["critical"] > 1:
         print("s", end="")
