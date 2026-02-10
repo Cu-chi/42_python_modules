@@ -25,6 +25,11 @@ def arg_split(input_string: str) -> tuple[str, str]:
 
 class DataStream(ABC):
     def __init__(self, stream_id: str) -> None:
+        """Initialize a DataStream
+
+        Args:
+            stream_id (str): stream id
+        """
         super().__init__()
         self.stream_id: str = stream_id
         self.processed: int = 0
@@ -32,16 +37,39 @@ class DataStream(ABC):
 
     @abstractmethod
     def process_batch(self, data_batch: List[Any]) -> str:
+        """process batch data according to the type of stream
+
+        Args:
+            data_batch (List[Any]): the data
+
+        Returns:
+            str: _description_
+        """
         pass
 
     def filter_data(self, data_batch: List[Any],
                     criteria: Optional[str] = None) -> List[Any]:
+        """filter the data of data_batch
+        returns only the data that respects the criteria
+
+        Args:
+            data_batch (List[Any]): the data
+            criteria (Optional[str], optional): the criteria. Defaults to None.
+
+        Returns:
+            List[Any]: filtered list
+        """
         if criteria is None:
             return data_batch
         return [elem for elem in data_batch
                 if isinstance(elem, str) and criteria in elem]
 
     def get_stats(self) -> Dict[str, Union[str, int, float]]:
+        """Dict of stats from the stream
+
+        Returns:
+            Dict[str, Union[str, int, float]]: dict with stats
+        """
         return {
             "STREAM_ID": self.stream_id,
             "TYPE": self.type,
