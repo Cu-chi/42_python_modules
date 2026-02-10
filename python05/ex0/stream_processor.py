@@ -81,28 +81,37 @@ def main() -> None:
     np: NumericProcessor = NumericProcessor()
     data_np: list[int] = [1, 2, 3, 4, 5]
     print(f"Processing data: {data_np}")
-    np_output: str = np.process(data_np)
-    print("Validation: ", end="")
-    if np.validate(data_np):
-        print(np.format_output(np_output))
+    try:
+        np_output: str = np.process(data_np)
+        print("Validation: ", end="")
+        if np.validate(data_np):
+            print(np.format_output(np_output))
+    except Exception as e:
+        print(f"{e.__class__.__name__}: {e}")
 
     print("\nInitializing Text Processor...")
     tp: TextProcessor = TextProcessor()
     data_tp: str = "Hello Nexus World"
     print(f"Processing data: \"{data_tp}\"")
-    tp_output: str = tp.process(data_tp)
-    print("Validation: ", end="")
-    if tp.validate(data_tp):
-        print(tp.format_output(tp_output))
+    try:
+        tp_output: str = tp.process(data_tp)
+        print("Validation: ", end="")
+        if tp.validate(data_tp):
+            print(tp.format_output(tp_output))
+    except Exception as e:
+        print(f"{e.__class__.__name__}: {e}")
 
     print("\nInitializing Log Processor...")
     lp: LogProcessor = LogProcessor()
     data_lp: str = "ERROR: Connection timeout"
     print(f"Processing data: \"{data_lp}\"")
-    lp_output: str = lp.process(data_lp)
-    print("Validation: ", end="")
-    if lp.validate(data_lp):
-        print(lp.format_output(lp_output))
+    try:
+        lp_output: str = lp.process(data_lp)
+        print("Validation: ", end="")
+        if lp.validate(data_lp):
+            print(lp.format_output(lp_output))
+    except Exception as e:
+        print(f"{e.__class__.__name__}: {e}")
 
     print("\n=== Polymorphic Processing Demo ===")
     print("Processing multiple data types through same interface...")
@@ -118,7 +127,10 @@ def main() -> None:
     ]
     for i in range(3):
         data_processor: DataProcessor = specialized[i]
-        print(f"Result {i + 1}: {data_processor.process(datas[i])}")
+        try:
+            print(f"Result {i + 1}: {data_processor.process(datas[i])}")
+        except Exception as e:
+            print(f"{e.__class__.__name__}: {e}")
     print("\nFoundation systems online. Nexus ready for advanced streams.")
 
 
