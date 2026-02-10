@@ -11,7 +11,6 @@ class DataProcessor(ABC):
     def validate(self, data: Any) -> bool:
         pass
 
-    @abstractmethod
     def format_output(self, result: str) -> str:
         return "Output: " + result
 
