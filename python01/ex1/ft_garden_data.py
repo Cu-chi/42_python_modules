@@ -20,7 +20,7 @@ if __name__ == "__main__":
         Plant("Sunflower", 80, 45),
         Plant("Cactus", 15, 120)
     ]
-    ("=== Garden Plant Registry ===")
+    print("=== Garden Plant Registry ===")
     for i in range(3):
         print(f"{plants[i].name}: {plants[i].height}cm, {plants[i].age} days "
               "old")
