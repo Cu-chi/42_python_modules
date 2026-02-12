@@ -67,13 +67,13 @@ class TransformStage:
             sensor_value: float = transformed["data"]["value"]
             range_type: str = "Normal"
             if sensor_type == "temp" and\
-               sensor_value > 40 or sensor_value <= 0:
+               (sensor_value > 40 or sensor_value <= 0):
                 range_type = "Abnormal"
             if sensor_type == "humidity" and\
-               sensor_value > 90 or sensor_value <= 30:
+               (sensor_value > 90 or sensor_value <= 30):
                 range_type = "Abnormal"
             if sensor_type == "pressure" and\
-               sensor_value > 1200 or sensor_value <= 900:
+               (sensor_value > 1200 or sensor_value <= 900):
                 range_type = "Abnormal"
             transformed.update({"range": range_type})
             print("Transform: Enriched with metadata and validation")
@@ -101,11 +101,33 @@ class OutputStage:
 
     def process(self, data: Any) -> str:
         if data["adapter"] == "JSON":
-            pass
+            print("Output: Processed ", end="")
+            sensor_type: str = data["data"]["sensor"]
+            sensor_value: float = data["data"]["value"]
+            sensor_unit: float = data["data"]["unit"]
+            if sensor_type == "temp":
+                print("temperature ", end="")
+            if sensor_type == "humidity":
+                print("humidity ", end="")
+            if sensor_type == "pressure":
+                print("pressure ", end="")
+            print(f"reading: {sensor_value}{sensor_unit} "
+                  f"({data['range']} range)")
         elif data["adapter"] == "CSV":
-            pass
+            nb_actions: int = len(data["data"]["action"])
+            print(f"Output: User activity logged {nb_actions} action", end="")
+            if nb_actions > 1:
+                print("s", end="")
+            print(" processed")
         elif data["adapter"] == "Stream":
-            pass
+            nb_readings: int = len(data["temp_sensor_logs"])
+            print(f"Output: Stream summary: {nb_readings} reading", end="")
+            if nb_readings > 1:
+                print("s", end="")
+            avg_temp: float = 0.0
+            if nb_readings > 0:
+                avg_temp = sum(data["temp_sensor_logs"]) / nb_readings
+            print(f", avg: {avg_temp}°C")
 
 
 class ProcessingPipeline(ABC):
@@ -213,7 +235,7 @@ def main() -> None:
 
     print("\n=== Multi-Format Data Processing ===")
     data: dict[str, Any] = {
-        "JSON": {"sensor": "temp", "value": 23.5, "unit": "C"},
+        "JSON": {"sensor": "temp", "value": 23.5, "unit": "°C"},
         "CSV": "user,action,timestamp",
         "Stream": "Real-time sensor stream"
     }
