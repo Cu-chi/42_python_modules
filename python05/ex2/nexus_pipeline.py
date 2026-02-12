@@ -6,6 +6,12 @@ class NexusManagerError(Exception):
     pass
 
 
+class StageError(Exception):
+    def __init__(self, stage: str, *args) -> None:
+        super().__init__(*args)
+        self.stage: str = stage
+
+
 class ProcessingStage(Protocol):
     def process(data: Any) -> Any:
         pass
@@ -16,13 +22,35 @@ class InputStage:
         print("Stage 1: Input validation and parsing")
 
     def process(self, data: Any) -> Dict:
-        print(f"Input: {data}")
-        if isinstance(data, dict):
-            return {"adapter": "JSON", "data": data}
-        elif data == "Real-time sensor stream":
-            return {"adapter": "STREAM", "data": data}
-        else:
-            return {"adapter": "CSV", "data": data}
+        print(f"Input: {data['data']}")
+        if data["adapter"] == "JSON":
+            if isinstance(data["data"], dict):
+                return data
+            else:
+                raise StageError("1", "type JSON but data is not dict")
+        elif data["adapter"] == "STREAM":
+            if isinstance(data["data"], str):
+                if data["data"] == "Real-time sensor stream":
+                    return {"adapter": "STREAM", "data": {
+                        "temp_sensor_logs": []
+                    }}
+                else:
+                    raise StageError("1", "type STREAM but data is not"
+                                     "real-time sensor stream")
+            else:
+                raise StageError("1", "type STREAM but data is not str")
+        elif data["adapter"] == "CSV":
+            if isinstance(data["data"], str):
+                splits: List[str] = data["data"].split(",")
+                if len(splits) <= 1:
+                    raise StageError("1", "type CSV but not enough column")
+                parsed: Dict[str: List[Any]] = {}
+                for column in splits:
+                    parsed.update({column: []})
+                return {"adapter": "CSV", "data": parsed}
+            else:
+                raise StageError("1", "type CSV but data is not str")
+        raise StageError("1", "can't parse data type")
 
 
 class TransformStage:
@@ -30,12 +58,41 @@ class TransformStage:
         print("Stage 2: Data transformation and enrichment")
 
     def process(self, data: Any) -> Dict:
-        if data["adapter"] == "JSON":
-            pass
-        elif data["adapter"] == "CSV":
-            pass
-        elif data["adapter"] == "STREAM":
-            pass
+        transformed: Dict[str, Any] = data
+        if transformed["adapter"] == "JSON":
+            for key in ("sensor", "value", "unit"):
+                if key not in transformed["data"]:
+                    raise StageError("2", "Invalid data format")
+            sensor_type: str = transformed["data"]["sensor"]
+            sensor_value: float = transformed["data"]["value"]
+            range_type: str = "Normal"
+            if sensor_type == "temp" and\
+               sensor_value > 40 or sensor_value <= 0:
+                range_type = "Abnormal"
+            if sensor_type == "humidity" and\
+               sensor_value > 90 or sensor_value <= 30:
+                range_type = "Abnormal"
+            if sensor_type == "pressure" and\
+               sensor_value > 1200 or sensor_value <= 900:
+                range_type = "Abnormal"
+            transformed.update({"range": range_type})
+            print("Transform: Enriched with metadata and validation")
+        elif transformed["adapter"] == "CSV":
+            for key in ("user", "action", "timestamp"):
+                if key not in transformed["data"]:
+                    raise StageError("2", "Invalid data format")
+            transformed["data"]["user"] += ["default"]
+            transformed["data"]["action"] += ["default"]
+            transformed["data"]["timestamp"] += ["0"]
+            print("Transform: Parsed and structured data")
+        elif transformed["adapter"] == "STREAM":
+            if "temp_sensor_logs" not in transformed["data"]:
+                raise StageError("2", "Invalid data format")
+            transformed["temp_sensor_logs"] = [25.0, 24.8,
+                                               25.0, 25.1,
+                                               24.4, 24.2]
+            print("Transform: Aggregated and filtered")
+        return transformed
 
 
 class OutputStage:
@@ -76,12 +133,10 @@ class JSONAdapter(ProcessingPipeline):
         super().__init__(pipeline_id)
 
     def process(self, data: Any) -> Union[str, Any]:
-        temp: dict = self.stages[0].process(data)
-        for stage in self.stages[1:]:
-            if isinstance(stage, TransformStage):
-                temp = stage.process(temp)
-            else:
-                stage.process(temp)
+        temp: Union[Dict, str] = {"adapter": "JSON", "data": data}
+        for stage in self.stages:
+            temp = stage.process(temp)
+        return temp
 
 
 class CSVAdapter(ProcessingPipeline):
@@ -89,7 +144,10 @@ class CSVAdapter(ProcessingPipeline):
         super().__init__(pipeline_id)
 
     def process(self, data: Any) -> Union[str, Any]:
-        pass
+        temp: Union[Dict, str] = {"adapter": "CSV", "data": data}
+        for stage in self.stages:
+            temp = stage.process(temp)
+        return temp
 
 
 class StreamAdapter(ProcessingPipeline):
@@ -97,7 +155,10 @@ class StreamAdapter(ProcessingPipeline):
         super().__init__(pipeline_id)
 
     def process(self, data: Any) -> Union[str, Any]:
-        pass
+        temp: Union[Dict, str] = {"adapter": "STREAM", "data": data}
+        for stage in self.stages:
+            temp = stage.process(temp)
+        return temp
 
 
 class NexusManager:
@@ -122,6 +183,8 @@ class NexusManager:
             if isinstance(pipeline, adapter):
                 try:
                     pipeline.process(data)
+                except StageError as e:
+                    print(f"Error detected in Stage {e.stage}: {e}")
                 except Exception as e:
                     print(f"[ERROR:{e.__class__.__name__}]: {e}")
                 break
