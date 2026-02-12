@@ -160,7 +160,7 @@ def main() -> None:
             nexus.process_data(JSONAdapter, data[key])
         elif key == "CSV":
             nexus.process_data(CSVAdapter, data[key])
-        elif key == "Stream":
+        elif key == "STREAM":
             nexus.process_data(StreamAdapter, data[key])
 
 
