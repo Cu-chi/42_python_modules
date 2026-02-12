@@ -13,7 +13,7 @@ class StageError(Exception):
 
 
 class ProcessingStage(Protocol):
-    def process(data: Any) -> Any:
+    def process(self, data: Any) -> Any:
         pass
 
 
@@ -272,6 +272,7 @@ def main() -> None:
     print("Recovery successful: Pipeline restored, processing resumed\n")
 
     print("Nexus Integration complete. All systems operational.")
+
 
 if __name__ == "__main__":
     main()
