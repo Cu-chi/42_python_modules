@@ -100,35 +100,36 @@ class OutputStage:
         print("Stage 3: Output formatting and delivery")
 
     def process(self, data: Any) -> str:
+        output: str = ""
         if data["adapter"] == "JSON":
-            print("Output: Processed ", end="")
+            output += "Output: Processed "
             sensor_type: str = data["data"]["sensor"]
             sensor_value: float = data["data"]["value"]
             sensor_unit: float = data["data"]["unit"]
             if sensor_type == "temp":
-                print("temperature ", end="")
+                output += "temperature "
             if sensor_type == "humidity":
-                print("humidity ", end="")
+                output += "humidity "
             if sensor_type == "pressure":
-                print("pressure ", end="")
-            print(f"reading: {sensor_value}{sensor_unit} "
-                  f"({data['range']} range)")
+                output += "pressure "
+            output += f"reading: {sensor_value}{sensor_unit} "
+            output += f"({data['range']} range)"
         elif data["adapter"] == "CSV":
             nb_actions: int = len(data["data"]["action"])
-            print(f"Output: User activity logged {nb_actions} action", end="")
+            output += f"Output: User activity logged {nb_actions} action"
             if nb_actions > 1:
-                print("s", end="")
-            print(" processed")
+                output += "s"
+            output += " processed"
         elif data["adapter"] == "Stream":
             nb_readings: int = len(data["temp_sensor_logs"])
-            print(f"Output: Stream summary: {nb_readings} reading", end="")
+            output += f"Output: Stream summary: {nb_readings} reading"
             if nb_readings > 1:
-                print("s", end="")
+                output += "s"
             avg_temp: float = 0.0
             if nb_readings > 0:
                 avg_temp = sum(data["temp_sensor_logs"]) / nb_readings
-            print(f", avg: {avg_temp}°C")
-
+            output += f", avg: {avg_temp}°C"
+        return output
 
 class ProcessingPipeline(ABC):
     def __init__(self, pipeline_id: str) -> None:
@@ -201,15 +202,17 @@ class NexusManager:
         self.capacity -= 1
 
     def process_data(self, adapter: ProcessingPipeline, data: Any) -> None:
+        processed: Union[Dict, str, None] = None
         for pipeline in self.pipelines:
             if isinstance(pipeline, adapter):
                 try:
-                    pipeline.process(data)
+                    processed = pipeline.process(data)
                 except StageError as e:
                     print(f"Error detected in Stage {e.stage}: {e}")
                 except Exception as e:
                     print(f"[ERROR:{e.__class__.__name__}]: {e}")
                 break
+        print(processed)
 
 
 def main() -> None:
