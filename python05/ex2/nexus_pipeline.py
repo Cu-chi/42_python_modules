@@ -44,7 +44,7 @@ class InputStage:
                 splits: List[str] = data["data"].split(",")
                 if len(splits) <= 1:
                     raise StageError("1", "type CSV but not enough column")
-                parsed: Dict[str: List[Any]] = {}
+                parsed: Dict[str, List[Any]] = {}
                 for column in splits:
                     parsed.update({column: []})
                 return {"adapter": "CSV", "data": parsed}
@@ -131,19 +131,13 @@ class OutputStage:
             output += f", avg: {avg_temp}°C"
         return output
 
+
 class ProcessingPipeline(ABC):
     def __init__(self, pipeline_id: str) -> None:
-        self.stages: List[Union[InputStage,
-                                TransformStage,
-                                OutputStage
-                                ]] = []
+        self.stages: List[ProcessingStage] = []
         self.pipeline_id: str = pipeline_id
 
-    def add_stage(self, stage: Union[
-        InputStage,
-        TransformStage,
-        OutputStage
-         ]) -> None:
+    def add_stage(self, stage: ProcessingStage) -> None:
         self.stages = self.stages + [stage]
 
     @abstractmethod
@@ -201,7 +195,7 @@ class NexusManager:
         self.pipelines = self.pipelines + [new_pipeline]
         self.capacity -= 1
 
-    def process_data(self, adapter: ProcessingPipeline, data: Any) -> None:
+    def process_data(self, adapter: type[ProcessingStage], data: Any) -> None:
         processed: Union[Dict, str, None] = None
         for pipeline in self.pipelines:
             if isinstance(pipeline, adapter):
