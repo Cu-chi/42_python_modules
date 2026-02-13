@@ -1,4 +1,4 @@
-from .Card import Card
+from ex0.Card import Card
 
 
 class CreatureCard(Card):
@@ -20,6 +20,7 @@ class CreatureCard(Card):
             "attack": self.attack,
             "health": self.health
         })
+        return infos
 
     def play(self, game_state: dict) -> dict:
         pass
