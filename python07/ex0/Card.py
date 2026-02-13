@@ -11,7 +11,11 @@ class CardRarity(Enum):
 
 class Card(ABC):
     def __init__(self, name: str, cost: int, rarity: str) -> None:
+        if name == "":
+            raise ValueError("Card name cannot be empty")
         self.name: str = name
+        if cost < 0:
+            raise ValueError("Card cost cannot be negative")
         self.cost: int = cost
         self.rarity: str = ""
         for card_rarity in CardRarity:
