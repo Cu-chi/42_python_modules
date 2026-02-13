@@ -11,6 +11,19 @@ class CardRarity(Enum):
 
 class Card(ABC):
     def __init__(self, name: str, cost: int, rarity: str) -> None:
+        """Initialize a Card object
+
+        Args:
+            name (str): Name of the Card
+            cost (int): Cost of the card (>= 0)
+            rarity (str): Rarity of the Card (Common,
+            Uncommon, Rare, Legendary)
+
+        Raises:
+            ValueError: if name is empty
+            ValueError: if cost is negative
+            ValueError: if rarity is invalid
+        """
         if name == "":
             raise ValueError("Card name cannot be empty")
         self.name: str = name
@@ -23,6 +36,7 @@ class Card(ABC):
                 self.rarity: str = rarity
         if self.rarity == "":
             raise ValueError(f"rarity '{rarity}' is invalid")
+        self.type: str = "Unknown"
 
     @abstractmethod
     def play(self, game_state: dict) -> dict:
@@ -33,6 +47,7 @@ class Card(ABC):
             "name": self.name,
             "cost": self.cost,
             "rarity": self.rarity,
+            "type": self.type
         }
 
     def is_playable(self, available_mana: int) -> bool:
