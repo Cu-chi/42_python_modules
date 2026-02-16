@@ -153,7 +153,7 @@ class TransactionStream(DataStream):
             else:
                 sells += int(data[1])
             self.processed += 1
-        self.net_flow: int = buys - sells
+        self.net_flow = buys - sells
         result: str = f"Transaction analysis: {self.processed} operation"
         if self.processed > 1:
             result += "s"
@@ -285,7 +285,7 @@ def polymorphic_stream() -> None:
     print("\n=== Polymorphic Stream Processing ===")
     print("Processing mixed stream types through unified interface...")
     stream_processor = StreamProcessor()
-    streams: dict[str, DataStream] = {
+    streams: dict[str, tuple] = {
         "SENSOR_001":
             (SensorStream("SENSOR_001"), ["temp:22.5", "temp:50"]),
         "TRANS_001":
