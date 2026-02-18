@@ -8,9 +8,39 @@ from typing import Any
 
 class FantasyCardFactory(CardFactory):
     def __init__(self) -> None:
-        self.__creatures: list[str] = ["dragon", "goblin"]
-        self.__spells: list[str] = ["fireball"]
-        self.__artifacts: list[str] = ["mana_ring"]
+        self.__creatures: dict[str] = {
+            "dragon": {
+                "name": "Fire Dragon",
+                "cost": 5,
+                "rarity": "Legendary",
+                "attack": 7,
+                "health": 5
+                },
+            "goblin": {
+                "name": "Goblin Warrior",
+                "cost": 2,
+                "rarity": "Common",
+                "attack": 2,
+                "health": 1
+                }
+            }
+        self.__spells: dict[str] = {
+            "fireball": {
+                "name": "Fireball",
+                "cost": 4,
+                "rarity": "Uncommon",
+                "effect_type": "damage"
+                }
+            }
+        self.__artifacts: dict[str] = {
+            "mana_ring": {
+                "name": "Mana Crystal",
+                "cost": 2,
+                "rarity": "Common",
+                "durability": 5,
+                "effect": "Permanent: +1 mana per turn"
+                }
+        }
 
         self.__supported_types: list = [
             "creatures",
@@ -100,5 +130,7 @@ class FantasyCardFactory(CardFactory):
         pass
 
     def get_supported_types(self) -> dict:
-        return {name: getattr(self, f"_FantasyCardFactory__{name}")
-                for name in self.__supported_types}
+        return {
+            name: list(getattr(self, f"_FantasyCardFactory__{name}").keys())
+            for name in self.__supported_types
+        }
