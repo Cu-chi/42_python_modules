@@ -127,6 +127,19 @@ class FantasyCardFactory(CardFactory):
                                 self.__artifacts[0]["durability"],
                                 self.__artifacts[0]["effect"])
 
+    @staticmethod
+    def random_card_name(keys: list[str], themed_deck: dict) -> str:
+        keys_amount: int = len(keys)
+        random_card_name: str = keys[random.randint(0, keys_amount - 1)]
+        while themed_deck.get(random_card_name):
+            keys.remove(random_card_name)
+            keys_amount -= 1
+            if keys_amount == 0:
+                raise ValueError("can't generate deck, size is"
+                                 " bigger than available cards")
+            random_card_name = keys[random.randint(0, keys_amount - 1)]
+        return random_card_name
+
     def create_themed_deck(self, size: int) -> dict:
         if size <= 0:
             return {}
@@ -135,18 +148,21 @@ class FantasyCardFactory(CardFactory):
             random_type: str = self.__supported_types[
                 random.randint(0, len(self.__supported_types) - 1)]
             if random_type == "creatures":
-                keys: list = list(self.__creatures.keys())
-                random_card_name: str = keys[random.randint(0, len(keys) - 1)]
+                keys: list[str] = list(self.__creatures.keys())
+                random_card_name: str = self.random_card_name(keys,
+                                                              themed_deck)
                 themed_deck.update({random_card_name:
                                     self.create_creature(random_card_name)})
             elif random_type == "spells":
-                keys: list = list(self.__spells.keys())
-                random_card_name: str = keys[random.randint(0, len(keys) - 1)]
+                keys: list[str] = list(self.__spells.keys())
+                random_card_name: str = self.random_card_name(keys,
+                                                              themed_deck)
                 themed_deck.update({random_card_name:
                                     self.create_spell(random_card_name)})
             elif random_type == "artifacts":
-                keys: list = list(self.__artifacts.keys())
-                random_card_name: str = keys[random.randint(0, len(keys) - 1)]
+                keys: list[str] = list(self.__artifacts.keys())
+                random_card_name: str = self.random_card_name(keys,
+                                                              themed_deck)
                 themed_deck.update({random_card_name:
                                     self.create_artifact(random_card_name)})
         return themed_deck
