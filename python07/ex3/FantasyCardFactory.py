@@ -100,5 +100,5 @@ class FantasyCardFactory(CardFactory):
         pass
 
     def get_supported_types(self) -> dict:
-        return {name: self["__"+name]
+        return {name: getattr(self, f"_FantasyCardFactory__{name}")
                 for name in self.__supported_types}
