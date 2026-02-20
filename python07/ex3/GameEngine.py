@@ -7,8 +7,9 @@ class GameEngine:
                          strategy: GameStrategy) -> None:
         print(f"Factory: {factory.__qualname__}")
         self.factory: CardFactory = factory()
-        print(f"Strategy: {strategy.__qualname__}")
+        print(f"Factory: {type(self.factory).__name__}")
         self.strategy: GameStrategy = strategy()
+        print(f"Strategy: {self.strategy.get_strategy_name()}")
 
     def simulate_turn(self) -> dict:
         pass
