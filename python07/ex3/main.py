@@ -10,8 +10,13 @@ def main() -> None:
     fantasy: FantasyCardFactory = FantasyCardFactory()
     print(f"Available types: {fantasy.get_supported_types()}")
 
-    print("Simulating aggressive turn...")
-    deck: dict = fantasy.create_themed_deck(3)
+    print("\nSimulating aggressive turn...")
+    deck: dict
+    try:
+        deck = fantasy.create_themed_deck(3)
+    except Exception as e:
+        print(f"Error while creating theme deck: {e}")
+        exit(1)
     print("Hand: [", end="")
     first: bool = True
     for _, card in deck.items():
@@ -21,6 +26,9 @@ def main() -> None:
             print(", ", end="")
         print(f"{card.name} ({card.cost})", end="")
     print("]")
+
+    print("\nTurn execution:")
+    print("Strategy: AggressiveStrategy")
 
     print()
     print("Abstract Factory + Strategy Pattern: Maximum flexibility achieved!")

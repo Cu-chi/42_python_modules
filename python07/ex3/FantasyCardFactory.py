@@ -140,13 +140,25 @@ class FantasyCardFactory(CardFactory):
             random_card_name = keys[random.randint(0, keys_amount - 1)]
         return random_card_name
 
+    def random_type(self, themed_deck: dict) -> str:
+        not_full: list[str] = []
+        for type in self.__supported_types:
+            is_full: bool = True
+            for card_name in getattr(self,
+                                     f"_FantasyCardFactory__{type}").keys():
+                if not themed_deck.get(card_name):
+                    is_full = False
+                    break
+            if not is_full:
+                not_full.append(type)
+        return not_full[random.randint(0, len(not_full) - 1)]
+
     def create_themed_deck(self, size: int) -> dict:
         if size <= 0:
             return {}
         themed_deck: dict = {}
         for _ in range(size):
-            random_type: str = self.__supported_types[
-                random.randint(0, len(self.__supported_types) - 1)]
+            random_type: str = self.random_type(themed_deck)
             if random_type == "creatures":
                 keys: list[str] = list(self.__creatures.keys())
                 random_card_name: str = self.random_card_name(keys,
