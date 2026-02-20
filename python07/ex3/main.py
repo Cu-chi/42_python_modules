@@ -1,19 +1,21 @@
 from ex3.FantasyCardFactory import FantasyCardFactory
+from ex3.GameEngine import GameEngine
+from ex3.AggressiveStrategy import AggressiveStrategy
 
 
 def main() -> None:
     print("\n=== DataDeck Game Engine ===\n")
 
     print("Configuring Fantasy Card Game...")
-    print("Factory: FantasyCardFactory")
-    print("Strategy: AggressiveStrategy")
-    fantasy: FantasyCardFactory = FantasyCardFactory()
-    print(f"Available types: {fantasy.get_supported_types()}")
+    game_engine: GameEngine = GameEngine()
+    game_engine.configure_engine(FantasyCardFactory, AggressiveStrategy)
+
+    print(f"Available types: {game_engine.factory.get_supported_types()}")
 
     print("\nSimulating aggressive turn...")
     deck: dict
     try:
-        deck = fantasy.create_themed_deck(3)
+        deck = game_engine.factory.create_themed_deck(3)
     except Exception as e:
         print(f"Error while creating theme deck: {e}")
         exit(1)
