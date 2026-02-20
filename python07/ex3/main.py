@@ -1,6 +1,7 @@
 from ex3.FantasyCardFactory import FantasyCardFactory
 from ex3.GameEngine import GameEngine
 from ex3.AggressiveStrategy import AggressiveStrategy
+from ex0.CreatureCard import CreatureCard
 
 
 def main() -> None:
@@ -27,14 +28,20 @@ def main() -> None:
         else:
             print(", ", end="")
         print(f"{card.name} ({card.cost})", end="")
+        game_engine.hand.append(card)
     print("]")
 
+    game_engine.battlefield = [
+        CreatureCard("Enemy Player", 5, "Common", 5, 10)
+    ]
     print("\nTurn execution:")
-    print("Strategy: AggressiveStrategy")
+    turn: dict = game_engine.simulate_turn()
+    print(f"Actions: {turn}")
 
-    print()
+    print("\nGame Report:")
+    print(f"{game_engine.get_engine_status()}\n")
+
     print("Abstract Factory + Strategy Pattern: Maximum flexibility achieved!")
-    print()
 
 
 if __name__ == "__main__":
