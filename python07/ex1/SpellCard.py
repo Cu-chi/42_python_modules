@@ -29,7 +29,7 @@ class SpellCard(Card):
         self.effect_type: str = ""
         for effect in EffectType:
             if effect_type == effect.value:
-                self.effect_type: str = effect_type
+                self.effect_type = effect_type
         if self.effect_type == "":
             raise ValueError(f"effect_type '{effect_type}' is invalid")
         self.type: str = "Spell"
