@@ -33,7 +33,7 @@ class Card(ABC):
         self.rarity: str = ""
         for card_rarity in CardRarity:
             if rarity == card_rarity.value:
-                self.rarity: str = rarity
+                self.rarity = rarity
         if self.rarity == "":
             raise ValueError(f"rarity '{rarity}' is invalid")
         self.type: str = "Unknown"
