@@ -23,28 +23,29 @@ class AggressiveStrategy(GameStrategy):
             "targets_attacked": [],
             "damage_dealt": 0
         }
-        best_attack: list[CreatureCard] = self.sort_attack(hand)
-        for card in best_attack:
-            hand.remove(card)
+        best_attack: list[Card] = self.sort_attack(hand)
+        for card in hand:
+            if card not in best_attack:
+                best_attack.append(card)
         priorized: list = self.prioritize_targets(battlefield)
         for creature in priorized:
-            card: Card
-            if len(best_attack) > 0:
-                card = best_attack[0]
-                attack: dict = card.attack_target(creature)
-                turn["damage_dealt"] += attack["damage_dealt"]
-
-            else:
-                for _card in hand:
-                    if isinstance(_card, SpellCard):
-                        if _card.effect_type == "damage":
-                            card = _card
-                            card.resolve_effect(battlefield)
-                            turn["damage_dealt"] += _card.cost \
-                                * len(battlefield)
-                    hand.pop(0)
-            turn["mana_used"] += card.cost
-            turn["cards_played"].append(card.name)
+            for card in best_attack:
+                attacking: bool = False
+                if isinstance(card, CreatureCard):
+                    attacking = True
+                    attack: dict = card.attack_target(creature)
+                    turn["damage_dealt"] += attack["damage_dealt"]
+                if isinstance(card, SpellCard):
+                    if card.effect_type == "damage":
+                        attacking = True
+                        card: SpellCard = card
+                        card.resolve_effect(battlefield)
+                        turn["damage_dealt"] += card.cost \
+                            * len(battlefield)
+                if attacking:
+                    turn["mana_used"] += card.cost
+                    turn["cards_played"].append(card.name)
+                    turn["targets_attacked"].append(creature.name)
         return turn
 
     def get_strategy_name(self) -> str:

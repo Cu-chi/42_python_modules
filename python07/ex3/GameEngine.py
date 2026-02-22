@@ -24,6 +24,7 @@ class GameEngine:
             self.hand = self.factory.create_themed_deck(3)
         turn_res: dict = self.strategy.execute_turn(self.hand,
                                                     self.battlefield)
+        self.cards_created += len(turn_res["cards_played"])
         self.total_damage += turn_res["damage_dealt"]
         return turn_res
 

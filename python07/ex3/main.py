@@ -34,6 +34,7 @@ def main() -> None:
     game_engine.battlefield = [
         CreatureCard("Enemy Player", 5, "Common", 5, 10)
     ]
+    game_engine.cards_created += 1
     print("\nTurn execution:")
     turn: dict = game_engine.simulate_turn()
     print(f"Actions: {turn}")
