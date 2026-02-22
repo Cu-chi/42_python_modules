@@ -20,7 +20,7 @@ class EliteCard(Card, Combatable, Magical):
         self.health: int = health
         self.combat_type: str = combat_type
         self.spell_cast: int = spell_cast
-        self.attack_mana: str = attack_mana
+        self.attack_mana: int = attack_mana
 
     def play(self, game_state: dict) -> dict:
         game_state.update({
