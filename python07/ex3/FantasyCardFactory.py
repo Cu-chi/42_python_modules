@@ -43,7 +43,7 @@ class FantasyCardFactory(CardFactory):
             }
         }
 
-        self.__supported_types: list = [
+        self.__supported_types: list[str] = [
             "creatures",
             "spells",
             "artifacts"
