@@ -57,6 +57,7 @@ class FantasyCardFactory(CardFactory):
             return 5 - card["cost"]
         elif card_type == "artifact":
             return card["durability"] - card["cost"]
+        raise ValueError(f"'{card_type}' is not a valid type")
 
     def create_creature(self, name_or_power: str | int | None = None) -> Card:
         if isinstance(name_or_power, str):
