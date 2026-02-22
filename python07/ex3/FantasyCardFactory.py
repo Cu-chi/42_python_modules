@@ -50,7 +50,7 @@ class FantasyCardFactory(CardFactory):
         ]
 
     @staticmethod
-    def get_power(card: list[dict[str, Any]], card_type: str) -> int:
+    def get_power(card: dict[str, dict[str, Any]], card_type: str) -> int:
         if card_type == "creature":
             return card["health"] + card["attack"] - card["cost"]
         elif card_type == "spell":
@@ -75,12 +75,7 @@ class FantasyCardFactory(CardFactory):
                                         creature_data["rarity"],
                                         creature_data["attack"],
                                         creature_data["health"])
-        else:
-            return CreatureCard(self.__creatures[0]["name"],
-                                self.__creatures[0]["cost"],
-                                self.__creatures[0]["rarity"],
-                                self.__creatures[0]["attack"],
-                                self.__creatures[0]["health"])
+        raise ValueError(f"'{name_or_power}' is not valid for creature")
 
     def create_spell(self, name_or_power: str | int | None = None) -> Card:
         if isinstance(name_or_power, str):
@@ -97,11 +92,7 @@ class FantasyCardFactory(CardFactory):
                                      spell_data["cost"],
                                      spell_data["rarity"],
                                      spell_data["effect_type"])
-        else:
-            return SpellCard(self.__spells[0]["name"],
-                             self.__spells[0]["cost"],
-                             self.__spells[0]["rarity"],
-                             self.__spells[0]["effect_type"])
+        raise ValueError(f"'{name_or_power}' is not valid for spell")
 
     def create_artifact(self, name_or_power: str | int | None = None) -> Card:
         if isinstance(name_or_power, str):
@@ -120,12 +111,7 @@ class FantasyCardFactory(CardFactory):
                                         artifact_data["rarity"],
                                         artifact_data["durability"],
                                         artifact_data["effect"])
-        else:
-            return ArtifactCard(self.__artifacts[0]["name"],
-                                self.__artifacts[0]["cost"],
-                                self.__artifacts[0]["rarity"],
-                                self.__artifacts[0]["durability"],
-                                self.__artifacts[0]["effect"])
+        raise ValueError(f"'{name_or_power}' is not valid for artifact")
 
     @staticmethod
     def random_card_name(keys: list[str], themed_deck: dict) -> str:
