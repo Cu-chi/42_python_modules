@@ -50,7 +50,7 @@ class FantasyCardFactory(CardFactory):
         ]
 
     @staticmethod
-    def get_power(card: dict[str, dict[str, Any]], card_type: str) -> int:
+    def get_power(card: dict[str, Any], card_type: str) -> int:
         if card_type == "creature":
             return card["health"] + card["attack"] - card["cost"]
         elif card_type == "spell":
@@ -146,22 +146,24 @@ class FantasyCardFactory(CardFactory):
         themed_deck: dict = {}
         for _ in range(size):
             random_type: str = self.random_type(themed_deck)
+            keys: list[str]
+            random_card_name: str
             if random_type == "creatures":
-                keys: list[str] = list(self.__creatures.keys())
-                random_card_name: str = self.random_card_name(keys,
-                                                              themed_deck)
+                keys = list(self.__creatures.keys())
+                random_card_name = self.random_card_name(keys,
+                                                         themed_deck)
                 themed_deck.update({random_card_name:
                                     self.create_creature(random_card_name)})
             elif random_type == "spells":
-                keys: list[str] = list(self.__spells.keys())
-                random_card_name: str = self.random_card_name(keys,
-                                                              themed_deck)
+                keys = list(self.__spells.keys())
+                random_card_name = self.random_card_name(keys,
+                                                         themed_deck)
                 themed_deck.update({random_card_name:
                                     self.create_spell(random_card_name)})
             elif random_type == "artifacts":
-                keys: list[str] = list(self.__artifacts.keys())
-                random_card_name: str = self.random_card_name(keys,
-                                                              themed_deck)
+                keys = list(self.__artifacts.keys())
+                random_card_name = self.random_card_name(keys,
+                                                         themed_deck)
                 themed_deck.update({random_card_name:
                                     self.create_artifact(random_card_name)})
         return themed_deck

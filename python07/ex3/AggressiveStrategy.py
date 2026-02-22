@@ -10,7 +10,7 @@ class AggressiveStrategy(GameStrategy):
         self.strategy = "AggressiveStrategy"
 
     @staticmethod
-    def sort_attack(hand: list) -> list[CreatureCard]:
+    def sort_attack(hand: list) -> list:
         return sorted([
             card for card in hand
             if isinstance(card, CreatureCard)
@@ -23,7 +23,7 @@ class AggressiveStrategy(GameStrategy):
             "targets_attacked": [],
             "damage_dealt": 0
         }
-        best_attack: list[Card] = self.sort_attack(hand)
+        best_attack: list = self.sort_attack(hand)
         for card in hand:
             if card not in best_attack:
                 best_attack.append(card)
@@ -38,7 +38,6 @@ class AggressiveStrategy(GameStrategy):
                 if isinstance(card, SpellCard):
                     if card.effect_type == "damage":
                         attacking = True
-                        card: SpellCard = card
                         card.resolve_effect(battlefield)
                         turn["damage_dealt"] += card.cost \
                             * len(battlefield)

@@ -1,5 +1,6 @@
 from ex3.CardFactory import CardFactory
 from ex3.GameStrategy import GameStrategy
+from typing import Type
 
 
 class GameEngine:
@@ -10,8 +11,8 @@ class GameEngine:
         self.battlefield: list = []
         self.hand: list = []
 
-    def configure_engine(self, factory: CardFactory,
-                         strategy: GameStrategy) -> None:
+    def configure_engine(self, factory: Type[CardFactory],
+                         strategy: Type[GameStrategy]) -> None:
         self.factory: CardFactory = factory()
         print(f"Factory: {type(self.factory).__name__}")
         self.strategy: GameStrategy = strategy()
@@ -21,7 +22,9 @@ class GameEngine:
         self.turns += 1
         print(f"Strategy: {self.strategy.get_strategy_name()}")
         if len(self.hand) == 0:
-            self.hand = self.factory.create_themed_deck(3)
+            themed_deck: dict = self.factory.create_themed_deck(3)
+            for _, card in themed_deck.items():
+                self.hand.append(card)
         turn_res: dict = self.strategy.execute_turn(self.hand,
                                                     self.battlefield)
         self.cards_created += len(turn_res["cards_played"])
