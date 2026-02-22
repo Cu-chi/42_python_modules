@@ -13,7 +13,7 @@ class AggressiveStrategy(GameStrategy):
         return sorted([
             card for card in hand
             if isinstance(card, CreatureCard)
-        ], key=lambda card: -card.attack)
+        ], key=lambda card: card.attack, reverse=True)
 
     def execute_turn(self, hand: list, battlefield: list) -> dict:
         turn: dict = {
