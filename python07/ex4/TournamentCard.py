@@ -32,10 +32,12 @@ class TournamentCard(Card, Combatable, Rankable):
         return self.rating
 
     def update_wins(self, wins: int) -> None:
-        pass
+        self.wins = wins
+        self.calculate_rating()
 
     def update_losses(self, losses: int) -> None:
-        pass
+        self.losses = losses
+        self.calculate_rating()
 
     def get_rank_info(self) -> dict:
         pass
