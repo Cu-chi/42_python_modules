@@ -16,8 +16,8 @@ def main() -> None:
     print(tournament.register_card(ice_wizard))
 
     print("\nCreating tournament match...")
-    print(f"Match result: {tournament.create_match("dragon_001",
-                                                   "wizard_001")}")
+    print("Match result:"
+          f"{tournament.create_match('dragon_001', 'wizard_001')}")
 
     print("\nTournament Leaderboard:")
     leaderboard: list = tournament.get_leaderboard()
