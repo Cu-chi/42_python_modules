@@ -24,7 +24,14 @@ class TournamentCard(Card, Combatable, Rankable):
         self.hp: int = hp
 
     def play(self, game_state: dict) -> dict:
-        pass
+        total_attacks: int = 1
+        attack: dict = self.attack(game_state["enemy"])
+        while not attack["dead"]:
+            attack = self.attack(game_state["enemy"])
+            total_attacks += 1
+        return {
+            "total_attacks": total_attacks
+        }
 
     def calculate_rating(self) -> int:
         self.rating += 16 * self.wins
@@ -40,7 +47,9 @@ class TournamentCard(Card, Combatable, Rankable):
         self.calculate_rating()
 
     def get_rank_info(self) -> dict:
-        pass
+        return {
+            "rating": self.rating
+        }
 
     def attack(self, target: 'TournamentCard') -> dict:
         defense_res: dict = target.defend(self.attack_)

@@ -34,15 +34,12 @@ class TournamentPlatform:
         card2: TournamentCard = self.get_card_by_id(card2_id)
         winner: TournamentCard
         loser: TournamentCard
-        while card1.hp > 0 and card2.hp > 0:
-            attack1: dict = card1.attack(card2)
-            if attack1["dead"]:
-                winner = card1
-                loser = card2
-            attack2: dict = card2.attack(card1)
-            if attack2["dead"]:
-                winner = card2
-                loser = card1
+        play_card1: dict = card1.play({"enemy": card2})
+        play_card2: dict = card2.play({"enemy": card1})
+        if play_card1["total_attacks"] < play_card2["total_attacks"]:
+            winner, loser = card1, card2
+        else:
+            winner, loser = card2, card1
         winner.update_wins(winner.wins + 1)
         loser.update_losses(loser.losses + 1)
         return {
