@@ -1,15 +1,23 @@
-from ex0.Card import CardRarity
+from ex0.Card import CardRarity, Card
 from ex0.CreatureCard import CreatureCard
 from ex2.EliteCard import EliteCard
+from ex2.Combatable import Combatable
+from ex2.Magical import Magical
+
+
+def get_methods(cls) -> list[str]:
+    return [method for method in dir(cls)
+            if callable(getattr(cls, method))
+            and not method.startswith('__')]
 
 
 def main() -> None:
     print("\n=== DataDeck Ability System ===\n")
 
     print("EliteCard capabilities:")
-    print("- Card: ['play', 'get_card_info', 'is_playable']")
-    print("- Combatable: ['attack', 'defend', 'get_combat_stats']")
-    print("- Magical: ['cast_spell', 'channel_mana', 'get_magic_stats']")
+    print(f"- Card: {get_methods(Card)}")
+    print(f"- Combatable: {get_methods(Combatable)}")
+    print(f"- Magical: {get_methods(Magical)}")
 
     elite: EliteCard = EliteCard("Arcane Warrior", 5,
                                  CardRarity.LEGENDARY.value, 3, 5, 10,
