@@ -45,7 +45,8 @@ def check_libs() -> bool:
         print(f"[KO] {e.name} - not found")
         ok = False
     try:
-        print(f"[OK] matplotlib ({version('matplotlib')}) - Visualization ready")
+        print(f"[OK] matplotlib ({version('matplotlib')})"
+              "- Visualization ready")
     except PackageNotFoundError as e:
         print(f"[KO] {e.name} - not found")
         ok = False
