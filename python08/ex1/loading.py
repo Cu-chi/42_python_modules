@@ -1,11 +1,9 @@
 #!/usr/bin/env python3
-import requests
-import pandas as pd
-import numpy
-import matplotlib.pyplot as plt
 
 
 def get_last_month_weather() -> dict:
+    import requests
+    import numpy
     try:
         result: requests.Response = requests.get(
             "https://api.open-meteo.com/v1/forecast?latitude="
@@ -32,10 +30,45 @@ def get_last_month_weather() -> dict:
         }
 
 
+def check_libs() -> bool:
+    from importlib.metadata import version, PackageNotFoundError
+    print("Checking dependencies:")
+    ok: bool = True
+    try:
+        print(f"[OK] pandas ({version('pandas')}) - Data manipulation ready")
+    except PackageNotFoundError as e:
+        print(f"[KO] {e.name} - not found")
+        ok = False
+    try:
+        print(f"[OK] requests ({version('requests')}) - Network access ready")
+    except PackageNotFoundError as e:
+        print(f"[KO] {e.name} - not found")
+        ok = False
+    try:
+        print(f"[OK] matplotlib ({version('matplotlib')}) - Visualization ready")
+    except PackageNotFoundError as e:
+        print(f"[KO] {e.name} - not found")
+        ok = False
+    return ok
+
+
 def main() -> None:
+    print("LOADING STATUS: Loading programs...\n")
+    if not check_libs():
+        print("\nmissing dependencies, run:")
+        print("\npip install -r requirements.txt  # to install with pip")
+        print("\nor\n")
+        print("poetry install  # to install with poetry")
+        print("\nThen run 'python3 loading.py' again.")
+        return
+
+    print("\nAnalyzing Matrix data...")
     data: dict = get_last_month_weather()
-    print(data)
+    import pandas as pd
+    import matplotlib.pyplot as plt
     df: pd.DataFrame = pd.DataFrame(data)
+    print(f"Processing {len(df)} data points...")
+    print("Generating visualization...\n")
     df = df.rename(columns={"temperature_2m_max": "temperature"})
     plt.style.use('dark_background')
     df.plot(style="r:o")
@@ -43,6 +76,8 @@ def main() -> None:
     plt.xlabel("past days (31 is today)")
     plt.ylabel("temperature (in °C)")
     plt.savefig(fname="matrix_analysis.png")
+    print("Analysis complete!")
+    print("Results saved to: matrix_analysis.png")
 
 
 if __name__ == "__main__":
