@@ -1,2 +1,4 @@
 **/.venv
 **/matrix_env
+ex1/*.png
+ex1/poetry.lock
