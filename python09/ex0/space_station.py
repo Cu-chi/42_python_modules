@@ -1,5 +1,4 @@
 from pydantic import BaseModel, Field, ValidationError
-from pydantic_extra_types.pendulum_dt import DateTime
 from datetime import datetime
 from typing import Optional
 
@@ -10,7 +9,7 @@ class SpaceStation(BaseModel):
     crew_size: int = Field(ge=1, le=20)
     power_level: float = Field(ge=0.0, le=100.0)
     oxygen_level: float = Field(ge=0.0, le=100.0)
-    last_maintenance: DateTime
+    last_maintenance: datetime
     is_operational: bool = Field(default=True)
     notes: Optional[str] = Field(max_length=200, default=None)
 
@@ -40,7 +39,7 @@ def main() -> None:
     print("\n========================================")
     try:
         print("Expected validation error:")
-        space_station: SpaceStation = SpaceStation(
+        SpaceStation(
             station_id="ISS001",
             name="International Space Station",
             crew_size=60,

@@ -1,6 +1,5 @@
 from enum import Enum
 from pydantic import BaseModel, Field, ValidationError, model_validator
-from pydantic_extra_types.pendulum_dt import DateTime
 from datetime import datetime
 from typing_extensions import Self
 
@@ -27,7 +26,7 @@ class SpaceMission(BaseModel):
     mission_id: str = Field(min_length=5, max_length=15)
     mission_name: str = Field(min_length=3, max_length=100)
     destination: str = Field(min_length=3, max_length=50)
-    launch_date: DateTime
+    launch_date: datetime
     duration_days: int = Field(ge=1, le=3650)
     crew: list[CrewMember] = Field(min_length=1, max_length=12)
     mission_status: str = Field(default="planned")
@@ -119,7 +118,7 @@ def main() -> None:
     print("\n========================================")
     try:
         print("Expected validation error:")
-        mission: SpaceMission = SpaceMission(
+        SpaceMission(
             mission_id="M2024_MARS",
             mission_name="Mars Colony Establishment",
             destination="Mars",

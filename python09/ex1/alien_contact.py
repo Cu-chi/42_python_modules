@@ -1,6 +1,5 @@
 from enum import Enum
 from pydantic import BaseModel, Field, ValidationError, model_validator
-from pydantic_extra_types.pendulum_dt import DateTime
 from datetime import datetime
 from typing import Optional
 from typing_extensions import Self
@@ -15,7 +14,7 @@ class ContactType(Enum):
 
 class AlienContact(BaseModel):
     contact_id: str = Field(min_length=5, max_length=15)
-    timestamp: DateTime
+    timestamp: datetime
     location: str = Field(min_length=3, max_length=100)
     contact_type: ContactType
     signal_strength: float = Field(ge=0.0, le=10.0)
@@ -75,7 +74,7 @@ def main() -> None:
     print("\n========================================")
     try:
         print("Expected validation error:")
-        alien_contact: AlienContact = AlienContact(
+        AlienContact(
             contact_id="AC_2024_001",
             timestamp=datetime(2026, 2, 27),
             contact_type=ContactType.TELEPATHIC,
