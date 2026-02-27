@@ -7,9 +7,9 @@ from typing_extensions import Self
 
 
 class ContactType(Enum):
-    RADIO = "radio",
-    VISUAL = "visual",
-    PHYSICAL = "physical",
+    RADIO = "radio"
+    VISUAL = "visual"
+    PHYSICAL = "physical"
     TELEPATHIC = "telepathic"
 
 
@@ -62,7 +62,7 @@ def main() -> None:
         )
         print("Valid contact report:")
         print(f"ID: {alien_contact.contact_id}")
-        print(f"Type: {alien_contact.contact_type}")
+        print(f"Type: {alien_contact.contact_type.value}")
         print(f"Location: {alien_contact.location}")
         print(f"Signal: {alien_contact.signal_strength}/10")
         print(f"Duration: {alien_contact.duration_minutes} "
