@@ -10,5 +10,5 @@ This repository cointains all the Milestone 2 python modules of the 42 CC.
 [python06](https://github.com/Cu-chi/42_python_modules/tree/main/python06): learning import methods  
 [python07](https://github.com/Cu-chi/42_python_modules/tree/main/python07): Mastering abstract class  
 [python08](https://github.com/Cu-chi/42_python_modules/tree/main/python08): virtual environments, program dependencies and system variables   
-[python09](https://github.com/Cu-chi/42_python_modules/tree/main/python09): TODO  
+[python09](https://github.com/Cu-chi/42_python_modules/tree/main/python09): pydantic introduction  
 [python10](https://github.com/Cu-chi/42_python_modules/tree/main/python10): TODO  
