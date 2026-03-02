@@ -5,11 +5,11 @@ def artifact_sorter(artifacts: list[dict]) -> list[dict]:
 
 
 def power_filter(mages: list[dict], min_power: int) -> list[dict]:
-    return filter(lambda mage: mage["power"] >= min_power, mages)
+    return list(filter(lambda mage: mage["power"] >= min_power, mages))
 
 
 def spell_transformer(spells: list[str]) -> list[str]:
-    return map(lambda spell: f"* {spell} *", spells)
+    return list(map(lambda spell: f"* {spell} *", spells))
 
 
 def mage_stats(mages: list[dict]) -> dict:

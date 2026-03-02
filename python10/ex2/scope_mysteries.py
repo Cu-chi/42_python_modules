@@ -1,7 +1,7 @@
-from typing import Any, Literal
+from typing import Any, Literal, Callable
 
 
-def mage_counter() -> callable:
+def mage_counter() -> Callable:
     number_called: int = 0
 
     def counter() -> int:
@@ -11,7 +11,7 @@ def mage_counter() -> callable:
     return counter
 
 
-def spell_accumulator(initial_power: int) -> callable:
+def spell_accumulator(initial_power: int) -> Callable:
     total_power: int = 0
 
     def accumulator() -> int:
@@ -21,11 +21,11 @@ def spell_accumulator(initial_power: int) -> callable:
     return accumulator
 
 
-def enchantment_factory(enchantment_type: str) -> callable:
+def enchantment_factory(enchantment_type: str) -> Callable:
     return lambda item_name: enchantment_type + " " + item_name
 
 
-def memory_vault() -> dict[str, callable]:
+def memory_vault() -> dict[str, Callable]:
     vault: dict[str, Any] = {}
 
     def recall(key: str) -> Any | Literal['Memory not found']:
@@ -43,12 +43,12 @@ def memory_vault() -> dict[str, callable]:
 
 def main() -> None:
     print("\nTesting mage counter...")
-    counter: callable = mage_counter()
+    counter: Callable = mage_counter()
     for i in range(1, 4):
         print(f"Call {i}: {counter()}")
 
     print("\nTesting spell accumulator...")
-    accumulator: callable = spell_accumulator(5)
+    accumulator: Callable = spell_accumulator(5)
     for i in range(1, 4):
         print(f"Call {i}: {accumulator()}")
 
@@ -57,7 +57,7 @@ def main() -> None:
     print(enchantment_factory("Frozen")("Shield"))
 
     print("\nTesting memory vault...")
-    vault_funcs: dict[str, callable] = memory_vault()
+    vault_funcs: dict[str, Callable] = memory_vault()
     print(f"Getting unknown key 'test': {vault_funcs['recall']('test')}")
     print("Adding 'test': 42 to vault")
     vault_funcs['store']('test', 42)
