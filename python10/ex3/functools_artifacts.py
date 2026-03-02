@@ -26,8 +26,11 @@ def partial_enchanter(base_enchantment: Callable) -> dict[str, Callable]:
     }
 
 
+@functools.lru_cache
 def memoized_fibonacci(n: int) -> int:
-    pass
+    if n < 2:
+        return n
+    return memoized_fibonacci(n - 2) + memoized_fibonacci(n - 1)
 
 
 def spell_dispatcher() -> callable:
@@ -39,6 +42,18 @@ def main() -> None:
     print("\nTesting spell reducer...")
     for op in ['add', 'multiply', 'max', 'min']:
         print(f"{op.capitalize()}: {spell_reducer(spell_powers, op)}")
+
+    def base_enchantment(power: int, element: str, target: str) -> None:
+        print(f"Target {target} has now {power} power and element {element}")
+
+    print("\nTesting partial enchanter...")
+    partials: dict[str, Callable] = partial_enchanter(base_enchantment)
+    for key in ['fire_enchant', 'ice_enchant', 'lightning_enchant']:
+        partials[key](target="sword")
+
+    print("Testing memoized fibonacci...")
+    for n in [10, 15, 20]:
+        print(f"Fib({n}): {memoized_fibonacci(n)}")
 
 
 if __name__ == "__main__":
