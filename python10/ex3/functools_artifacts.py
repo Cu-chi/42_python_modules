@@ -33,8 +33,23 @@ def memoized_fibonacci(n: int) -> int:
     return memoized_fibonacci(n - 2) + memoized_fibonacci(n - 1)
 
 
-def spell_dispatcher() -> callable:
-    pass
+def spell_dispatcher() -> Callable:
+    @functools.singledispatch
+    def spell(arg: Any) -> str:
+        return f"Type '{type(arg).__name__}' is unknown"
+
+    @spell.register
+    def _(damage: int) -> str:
+        return f"Damage {damage}"
+
+    @spell.register
+    def _(enchantment: str) -> str:
+        return f"Enchantment {enchantment}"
+
+    @spell.register
+    def _(enchantments: list) -> list[str]:
+        return [spell(enchantment) for enchantment in enchantments]
+    return spell
 
 
 def main() -> None:
@@ -54,6 +69,13 @@ def main() -> None:
     print("Testing memoized fibonacci...")
     for n in [10, 15, 20]:
         print(f"Fib({n}): {memoized_fibonacci(n)}")
+
+    print("\nTesting spell dispatcher...")
+    spell: Callable = spell_dispatcher()
+    print(spell(10))
+    print(spell("fire"))
+    print(spell(10.0))
+    print(spell([4, 8, [50, "fire"], "ice", 0.33, 15]))
 
 
 if __name__ == "__main__":
