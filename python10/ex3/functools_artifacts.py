@@ -1,5 +1,6 @@
 import functools
 import operator
+from typing import Any, Callable
 
 
 def spell_reducer(spells: list[int], operation: str) -> int:
@@ -11,9 +12,10 @@ def spell_reducer(spells: list[int], operation: str) -> int:
         return functools.reduce(max, spells)
     elif operation == "min":
         return functools.reduce(min, spells)
+    raise ValueError(f"operation '{operation}' is not valid")
 
 
-def partial_enchanter(base_enchantment: callable) -> dict[str, callable]:
+def partial_enchanter(base_enchantment: Callable) -> dict[str, Callable]:
     return {
         "fire_enchant": functools.partial(
             base_enchantment, power=50, element="fire"),
