@@ -47,8 +47,8 @@ def spell_dispatcher() -> Callable:
         return f"Enchantment {enchantment}"
 
     @spell.register
-    def _(enchantments: list) -> list[str]:
-        return [spell(enchantment) for enchantment in enchantments]
+    def _(enchantments: list) -> str:
+        return f"{[spell(enchantment) for enchantment in enchantments]}"
     return spell
 
 
